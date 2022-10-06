@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="login.component.css">
-  <title>LOGIN</title>
+
 </head>
+<p class="titulo-txt">Centro Terapeutico "Sana Sana"</p>
+
 <body>
+
 <div class="form-body">
   <img src="https://i.pinimg.com/736x/4e/6e/86/4e6e86ca3a4293bd73055a26c4ab3635.jpg">
   <p class="text">¡Bienvenido!</p>
   <form class="login-form" (ngSubmit)="formulariologin()" id="loginForm">
-    <input style="text-transform:uppercase;" placeholder="Usuario" class="text" [(ngModel)]="user.user" [ngModelOptions]="{standalone: true}" required>
+    <input placeholder="Usuario" class="text" [(ngModel)]="user.user" [ngModelOptions]="{standalone: true}" required>
     <div>
-      <input type="password" placeholder="CONTRASEÑA" class="text" [(ngModel)]="user.pass" [ngModelOptions]="{standalone: true}" required>
+      <input type="password" placeholder="Contraseña" class="text" [(ngModel)]="user.pass" [ngModelOptions]="{standalone: true}" required>
     </div>
-    <button type="submit" class="prueba">Iniciar Sesión</button>
+    <button type="submit" class="round-border">Iniciar Sesión</button>
   </form>
   <div *ngIf="usuarioInvalido" class="alert alert-danger prueba alerta" role="alert">
     El usuario o contraseña son incorrectas.
   </div>
-  <button (click)="crearUsuario()" class="prueba">Crear usuario</button>
+  <button (click)="crearUsuario()" class="round-border">Crear usuario</button>
 </div>
+
 
 </body>
 

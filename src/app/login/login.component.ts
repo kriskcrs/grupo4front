@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   formulariologin(){
-
+ console.log("paso en formulario")
     let formularioValido : any = document.getElementById("loginForm");
     if(formularioValido.reportValidity()){
       this.servicioLogin().subscribe(
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(res:any){
-    console.log(res)
+    console.log(res + " aqui va el res ")
     if(res.length == 0){
       this.usuarioInvalido=true;
       console.log("paso por null")
@@ -63,11 +63,9 @@ export class LoginComponent implements OnInit {
         'Content-Type':'application/json'
       })
     }
-
     return this.http.post<any>("http://localhost:4042/login/user", this.user, httpOptions).pipe(
       catchError(e=>"e")
     )
-
   }
 
   createuser(user:any){
