@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
         'Content-Type':'application/json'
       })
     }
-    return this.http.post<any>("http://localhost:4042/login/user", this.user, httpOptions).pipe(
+    return this.http.post<any>("http://localhost:4043/login/autenticacion", this.user, httpOptions).pipe(
       catchError(e=>"e")
     )
   }

@@ -1,0 +1,16 @@
+<body>
+<div class="respmenu">
+  <h1>Roles</h1>
+  <form action="/" (ngSubmit)="creacionRol()" id="form">
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Rol</label>
+      <input type="Rol" class="form-control" id="exampleFormControlInput1" placeholder="Ej. usuario" [(ngModel)]="rol.tipo" [ngModelOptions]="{standalone:true}" required>
+    </div>
+    <br>
+    <input type="submit" value="Crear" type="button" class="btn btn-success">
+  </form>
+  <br>
+</div>
+<button (click)="regreso()" type="button" class="btn btn-warning">Regresar</button>
+<div align="right"> <img src="https://i.pinimg.com/736x/4e/6e/86/4e6e86ca3a4293bd73055a26c4ab3635.jpg"></div>
+</body>
