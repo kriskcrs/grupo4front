@@ -73,6 +73,9 @@ export class LoginComponent implements OnInit {
     location.href="/home";
   }
 
+  welcome(){
+    location.href="/"
+  }
 
 
 }

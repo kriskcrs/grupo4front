@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.css']
+  selector: 'app-clientes',
+  templateUrl: './clientes.component.html',
+  styleUrls: ['./clientes.component.css']
 })
-export class RolesComponent implements OnInit {
+export class ClientesComponent implements OnInit {
 
   // variables
   consul: boolean = true
   crea: boolean = false
   elim: boolean= false
+  busca: boolean = false
 
   constructor() {}
 

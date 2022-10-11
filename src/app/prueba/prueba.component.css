@@ -86,21 +86,21 @@ footer{
   padding-right: 5%;
 }
 
-.btn{
-  padding: 10px;
+.btn-guardar{
+  padding: 5%;
+  position: relative;
+  top: 55%;
+  left: 15%;
   background-color: #377771;
   color: white;
 }
 
 .btn-select{
-  padding: 5%;
-  padding-right: 10%;
-  padding-left: 10%;
+  padding: 3%;
   background-color: #377771;
   color: white;
 }
 
-.btnElim{
-  background-color: #DD403A;
+button{
+  margin: 10%;
 }
-

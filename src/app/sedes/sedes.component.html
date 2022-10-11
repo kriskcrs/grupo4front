@@ -119,7 +119,7 @@
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <h3 class="header">Administracion de Roles</h3>
+          <h3 class="header">Administracion de Sedes</h3>
           |
           <!--      Opciones de la pantalla-->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -142,48 +142,49 @@
     <div id="content" class="container">
       <!--Consulta-->
       <div *ngIf="consul">
-        <div>
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+        Pendiente :/
+<!--        <div>-->
+<!--          <table class="table table-striped">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th scope="col">#</th>-->
+<!--              <th scope="col">First</th>-->
+<!--              <th scope="col">Last</th>-->
+<!--              <th scope="col">Handle</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr>-->
+<!--              <th scope="row">1</th>-->
+<!--              <td>Mark</td>-->
+<!--              <td>Otto</td>-->
+<!--              <td>@mdo</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <th scope="row">2</th>-->
+<!--              <td>Jacob</td>-->
+<!--              <td>Thornton</td>-->
+<!--              <td>@fat</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+<!--        </div>-->
       </div>
 
       <!--Creacion-->
       <div *ngIf="crea">
         <div class="container create">
-          <h2>Creación de Rol</h2>
+          <h2>Creación de Identidad</h2>
           <br>
           <form>
             <div class="mb-3 row">
               <div class="col-3">
-                <label class="form-label">Nombre de Rol</label>
-                <input type="text" class="form-control" id="rol">
-                <div id="msjRol" class="form-text">Ej. Recepcionista</div>
+                <label class="form-label">Nombre de Identidad</label>
+                <input type="text" class="form-control" id="tipoIdentidad">
+                <div id="msjRol" class="form-text">Ej. Pasaporte</div>
               </div>
             </div>
-            <button type="button" class="btn btn-guardar">Guardar Terapia</button>
+            <button type="button" class="btn btn-guardar">Guardar Estado</button>
           </form>
         </div>
       </div>
@@ -191,12 +192,12 @@
       <!--Eliminacion-->
       <div *ngIf="elim">
         <div class="container create">
-          <h2>Eliminación de Rol</h2>
+          <h2>Eliminación de Identidades</h2>
           <br>
           <form>
             <div class="row">
               <div class="col-auto">
-                <label class="form-label">Roles</label>
+                <label class="form-label">Identidad</label>
                 <select class="form-select" aria-label="Default select example">
                   <option selected></option>
                   <option value="1">One</option>
@@ -208,11 +209,11 @@
             <br>
             <div class="mb-3 row">
               <div class="col-3">
-                <label class="form-label">Nombre de Rol</label>
+                <label class="form-label">Nombre de Identidad</label>
                 <input type="text" class="form-control" id="terapiaElim" disabled>
               </div>
             </div>
-            <button type="button" class="btn btnElim">Eliminar Terapia</button>
+            <button type="button" class="btn btnElim">Eliminar Identidad</button>
           </form>
         </div>
       </div>

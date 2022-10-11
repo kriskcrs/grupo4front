@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.css']
+  selector: 'app-tipo-identidad',
+  templateUrl: './tipo-identidad.component.html',
+  styleUrls: ['./tipo-identidad.component.css']
 })
-export class RolesComponent implements OnInit {
+export class TipoIdentidadComponent implements OnInit {
 
   // variables
   consul: boolean = true
@@ -29,4 +29,5 @@ export class RolesComponent implements OnInit {
       case 3: this.elim = true; break;
     }
   }
+
 }

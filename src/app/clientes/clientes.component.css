@@ -57,7 +57,6 @@ footer{
   bottom: 0;
   left: 1%;
   right: 0;
-
 }
 
 #logo{
@@ -92,15 +91,6 @@ footer{
   color: white;
 }
 
-.btn-select{
-  padding: 5%;
-  padding-right: 10%;
-  padding-left: 10%;
-  background-color: #377771;
-  color: white;
-}
-
 .btnElim{
   background-color: #DD403A;
 }
-

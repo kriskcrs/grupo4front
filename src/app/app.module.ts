@@ -11,6 +11,20 @@ import { HomeComponent } from './home/home.component';
 import { RolesComponent } from './roles/roles.component';
 import { TerapiasComponent } from './terapias/terapias.component';
 import { AdminRolesComponent } from './admin-roles/admin-roles.component';
+import { PruebaComponent } from './prueba/prueba.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BootstrapIconsModule } from 'ng-bootstrap-icons';
+import { allIcons } from 'ng-bootstrap-icons/icons';
+import { ClientesComponent } from './clientes/clientes.component';
+import { EspecialistasComponent } from './especialistas/especialistas.component';
+import { EspecialidadesComponent } from './especialidades/especialidades.component';
+import { SedesComponent } from './sedes/sedes.component';
+import { FacturasComponent } from './facturas/facturas.component';
+import { EstadosComponent } from './estados/estados.component';
+import { TipoIdentidadComponent } from './tipo-identidad/tipo-identidad.component';
+import { DirecionesComponent } from './direciones/direciones.component';
+
 
 @NgModule({
   declarations: [
@@ -19,14 +33,29 @@ import { AdminRolesComponent } from './admin-roles/admin-roles.component';
     HomeComponent,
     RolesComponent,
     TerapiasComponent,
-    AdminRolesComponent
+    AdminRolesComponent,
+    PruebaComponent,
+    WelcomeComponent,
+    ClientesComponent,
+    EspecialistasComponent,
+    EspecialidadesComponent,
+    SedesComponent,
+    FacturasComponent,
+    EstadosComponent,
+    TipoIdentidadComponent,
+    DirecionesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    NgbModule,
+    BootstrapIconsModule.pick(allIcons)
+  ],
+  exports: [
+    BootstrapIconsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
