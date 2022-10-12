@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <h1>Especialistas</h1>
+        <div class="table-responsive">
+        <table class="table mt-5">
+          <thead class="table-dark">
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Edad</th>
+              <th>Telefono</th>
+              <th>Email</th>
+              <th>Identidad</th>
+              <th>Nit</th>
+              <th>Direccion</th>
+              <th>Estado</th>
+              <th>Especialidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Luis Antonio</td>
+              <td>Lopez Marroquin</td>
+              <td>50</td>
+              <td>12345678</td>
+              <td>john@gmail.com</td>
+              <td>DPI</td>
+              <td>54885695523</td>
+              <td>Guatemala</td>
+              <td>Nuevo</td>
+              <td>Fisoterapia respiratoria</td> 
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-5">
+        <p>
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Crear Especialista
+          </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <form>
+              <div class="row">
+                <div class="col">
+                  <label for="inputNombre">Nombre</label>
+                  <input type="text" class="form-control" id="inputNombre">
+                </div>
+                <div class="col">
+                  <label for="inputApellido">Apellido</label>
+                  <input type="text" class="form-control" id="inputApellido">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2 mt-2">
+                  <label for="inputEdad">Edad</label>
+                  <input type="number" class="form-control" id="inputEdad">
+                </div>
+                <div class="col-md-4 mt-2">
+                  <label for="inputTelefono">Telefono</label>
+                  <input type="number" class="form-control" id="inputTelefono">
+                </div>
+                <div class="col-md-6 mt-2">
+                  <label for="inputEmail">Email</label>
+                  <input type="email" class="form-control" id="inputEmail">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mt-2">
+                  <label for="inputNit">Nit</label>
+                  <input type="text" class="form-control" id="inputNit">
+                </div>
+                <div class="col-md-6 mt-2">
+                  <label for="inputDireccion">Direccion</label>
+                  <input type="text" class="form-control" id="inputDireccion">
+                </div>
+                <div class="form-group col-md-4 mt-2">
+                  <label for="inputState">Identidad</label>
+                  <select id="inputState" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>DPI</option>
+                    <option>Pasaporte</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2 mt-2">
+                  <label for="inputNumId">Identificacion</label>
+                  <input type="text" class="form-control" id="inputNumId">
+                </div>
+                <div class="col-md-4 mt-2">
+                  <label for="inputEstado">Estado</label>
+                  <input type="text" class="form-control" id="inputEstado">
+                </div>
+                <div class="col-md-6 mt-2">
+                  <label for="inputEspecialidad">Especialidad</label>
+                  <input type="text" class="form-control" id="inputEspecialidad">
+                </div>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

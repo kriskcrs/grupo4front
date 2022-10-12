@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <h1>Reservaciones</h1>
+        <div class="table-responsive">
+        <table class="table mt-5">
+          <thead class="table-dark">
+            <tr>
+              <th>Reservacion</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Horario</th>
+              <th>Estado</th>
+              <th>Especialista</th>
+              <th>Especialidad</th>
+              <th>Clinica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dato de ejemplo</td>
+              <td>Jonathan Monroy</td>
+              <td>01/10/2022</td>
+              <td>15:00 PM</td>
+              <td>En progreso</td>
+              <td>Persona X</td>
+              <td>Especialidad Y</td>
+              <td>Santa Fe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-5">
+        <p>
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Crear Reservacion
+          </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <form>
+              <div class="row">
+                <div class="col">
+                  <label for="inputReservacion">Reservacion</label>
+                  <input type="text" class="form-control" id="inputReservacion">
+                </div>
+                <div class="col">
+                  <label for="inputFecha">Fecha</label>
+                  <input type="date" class="form-control" id="inputFecha">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mt-2">
+                  <label for="inputHorario">Horario</label>
+                  <input type="time" class="form-control" id="inputHorario">
+                </div>
+                <div class="form-group col-md-4 mt-2">
+                  <label for="inputCliente">Cliente</label>
+                  <select id="inputCliente" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>Cliente 1</option>
+                    <option>Cliente 2</option>
+                    <option>Cliente 3</option>
+                  </select>
+                </div>
+                <div class="col-md-3 mt-2">
+                  <label for="inputEstado">Estado</label>
+                  <input type="text" class="form-control" id="inputEstado">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4 mt-2">
+                  <label for="inputState">Especialidad</label>
+                  <select id="inputState" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>Dato 1</option>
+                    <option>Dato 2</option>
+                    <option>Dato 3</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-4 mt-2">
+                  <label for="inputEspecialista">Especialista</label>
+                  <select id="inputEspecialista" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>Nombre 1</option>
+                    <option>Nombre 2</option>
+                    <option>Nombre 3</option>
+                  </select>
+                </div>
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
