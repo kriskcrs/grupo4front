@@ -24,6 +24,7 @@ import { FacturasComponent } from './facturas/facturas.component';
 import { EstadosComponent } from './estados/estados.component';
 import { TipoIdentidadComponent } from './tipo-identidad/tipo-identidad.component';
 import { DirecionesComponent } from './direciones/direciones.component';
+import { CreacionUsuarioComponent } from './creacion-usuario/creacion-usuario.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { DirecionesComponent } from './direciones/direciones.component';
     FacturasComponent,
     EstadosComponent,
     TipoIdentidadComponent,
-    DirecionesComponent
+    DirecionesComponent,
+    CreacionUsuarioComponent
   ],
   imports: [
     BrowserModule,

@@ -15,6 +15,7 @@ import { FacturasComponent} from "./facturas/facturas.component";
 import { EstadosComponent} from "./estados/estados.component";
 import { TipoIdentidadComponent} from "./tipo-identidad/tipo-identidad.component";
 import { DirecionesComponent} from "./direciones/direciones.component";
+import { CreacionUsuarioComponent } from "./creacion-usuario/creacion-usuario.component";
 
 const routes: Routes = [
 
@@ -33,6 +34,7 @@ const routes: Routes = [
   {path:'estados', component: EstadosComponent},
   {path:'tipoDeidentidades', component: TipoIdentidadComponent},
   {path:'direcciones', component: DirecionesComponent},
+  {path:'creacion', component: CreacionUsuarioComponent},
 ];
 
 @NgModule({

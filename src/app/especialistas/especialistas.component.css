@@ -94,3 +94,14 @@ footer{
 .btnElim{
   background-color: #DD403A;
 }
+
+.center{
+  align-content: center !important;
+  text-align: center !important;
+}
+
+.espacio{
+  padding: 2% !important;
+}
+
+

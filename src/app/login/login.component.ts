@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
-import { HttpHeaders } from '@angular/common/http';
+import {HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -10,72 +10,94 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
 
+  //variables
+  user: any = {};
+  pass: string = ""
+  usuarioInvalido: boolean = false;
+  msjUsuarioInvalido: String = "El usuario o contraseña son incorrectas."
 
-  mensaje: String = "prueba";
-  prueba: string = "Ingrese un nombre";
-  mostrar: boolean =false;
-  user: any= {};
-  usuarioInvalido: boolean=false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   ngOnInit(): void {
     localStorage.clear()
   }
 
-  mostrarMensaje(){
-    this.mostrar = !this.mostrar;
-  }
+  formulariologin() {
+    this.usuarioInvalido = false
 
-  formulariologin(){
- console.log("paso en formulario")
-    let formularioValido : any = document.getElementById("loginForm");
-    if(formularioValido.reportValidity()){
+    console.log("entro en formulario")
+    let formularioValido: any = document.getElementById("loginForm");
+    if (formularioValido.reportValidity()) {
+
+      console.log(this.user)
+
+      //llamada al servicio de login
       this.servicioLogin().subscribe(
-        (respuesta:any)=> this.login(respuesta)
+        (respuesta: any) => this.login(respuesta)
       )
     }
   }
 
-  login(res:any){
-    console.log(res + " aqui va el res ")
-    if(res.length == 0){
-      this.usuarioInvalido=true;
-      console.log("paso por null")
-    }
-    else if(res=="e"){
-      alert("No hay comunicación con el servidor!!")
-    }
-    else if(res!=null){
-      localStorage.setItem("user",JSON.stringify(res));
-      location.href="/home";
-    }
-  }
 
-
-  crearUsuario(){
-    location.href="/user-creation";
-  }
-
-  servicioLogin(){
-    var httpOptions={
-      headers:new HttpHeaders({
-        'Content-Type':'application/json'
+  servicioLogin() {
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
       })
     }
     return this.http.post<any>("http://localhost:4043/login/autenticacion", this.user, httpOptions).pipe(
-      catchError(e=>"e")
+      catchError(e => "e")
     )
   }
 
-  createuser(user:any){
-    localStorage.setItem("user",JSON.stringify(user));
-    location.href="/home";
+  login(res: any) {
+
+    if (res != null) {
+      //recibido
+      console.log("OK")
+      res = JSON.parse(JSON.stringify(res))
+      console.log(res)
+
+      if(res.estado == "Activo"){
+        // Usuario OK
+        console.log(res.estado)
+        localStorage.setItem("user", JSON.stringify(res));
+        location.href = "/clientes";
+      }else{
+        // Fallo por -> 'estado'
+        this.msjUsuarioInvalido = res.estado
+        this.usuarioInvalido = true
+
+      }
+    } else if (res == null){
+      this.usuarioInvalido = true
+
+    } else if (res == "e") {
+      alert("No hay comunicación con el servidor!!")
+
+    }
   }
 
-  welcome(){
-    location.href="/"
+  limpiar(){
+    this.user = {};
+    this.pass  = ""
+    this.usuarioInvalido = false;
+    this.msjUsuarioInvalido = "El usuario o contraseña son incorrectas."
   }
 
 
+  crearUsuario() {
+    location.href = "/creacion";
+  }
+
+  createuser(user: any) {
+    localStorage.setItem("user", JSON.stringify(user));
+    location.href = "/home";
+  }
+
+  welcome() {
+    location.href = "/"
+  }
 }
