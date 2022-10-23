@@ -16,28 +16,115 @@ export class CreacionUsuarioComponent implements OnInit {
   persona: any = {}
   departamento: String = ""
   md5: any = new Md5()
+  tipoIdentidadList: any = []
+  departamentoList: any = []
+  municipioList:any = []
 
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
-
-    this.persona.nombre = "Diego"
-    this.persona.apellido = "Iboy"
-    this.persona.telefono = "123455678"
-    this.persona.tipoIdentidadIdTipoIdentidad = "1"
-    this.persona.identidad = "123414123"
-    this.persona.nit = "18236"
-    this.persona.email = "d@d.com"
-    this.persona.edad = "22"
-    this.departamento = "1"
-    this.direccion.municipioIdMunicipio = "1"
-    this.direccion.calle = "1"
-    this.direccion.avenida = "3"
-    this.direccion.otros = "253 Zona1"
-    this.user.password = "a"
-    this.user.passwordConfirm = "a"
-
+    this.consultaCatalogos()
   }
+
+  consultaMuni(){
+    this.municipioList = []
+    if(this.departamento != ""){
+      this.municipioList = []
+      this.consultaMunicipio(this.departamento).subscribe(
+        (respuesta: any) => this.consultaMunicipioResponse(respuesta)
+      )
+    }
+  }
+
+  // consultaTiposIdentidad
+  consultaMunicipio(id:any) {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/municipio/consulta/" + id, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaMunicipioResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.municipioList = res
+      console.log(this.municipioList)
+    }
+  }
+
+  //Catalogos
+  consultaCatalogos(){
+    //Tipos de identidad
+    this.consultaTipoIdentidad().subscribe(
+      (respuesta: any) => this.consultaTipoIdentidadResponse(respuesta)
+    )
+
+    //Departamentos
+    this.consultaDepartamento().subscribe(
+      (respuesta: any) => this.consultaDepartamentoResponse(respuesta)
+    )
+  }
+
+  // consultaTiposIdentidad
+  consultaTipoIdentidad() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/TipoIdentidad/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaTipoIdentidadResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.tipoIdentidadList = res
+      console.log(this.tipoIdentidadList)
+    }
+  }
+
+  consultaDepartamento() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/departamento/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaDepartamentoResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.departamentoList = res
+      console.log(this.departamentoList)
+    }
+  }
+
+
+
 
   welcome() {
     location.href = "/"
@@ -148,8 +235,16 @@ export class CreacionUsuarioComponent implements OnInit {
     if (res == "e") {
       alert("No hay comunicación con el servidor!!")
     } else if (res != null) {
-      alert();
+      res = JSON.parse(JSON.stringify(res))
+      console.log("COMPLETE: " + res)
+      alert("Tu nuevo usuario es: " + res.usuario)
+
+      this.salir()
     }
+  }
+
+  salir(){
+    location.href="/login"
   }
 
 }

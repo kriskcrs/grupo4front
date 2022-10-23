@@ -126,7 +126,7 @@ export class ClientesComponent implements OnInit {
       console.log(this.direccionCliente[0].otros)
       this.openXl(content)
       },
-      1000);
+      700);
 
   }
 

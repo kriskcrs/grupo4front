@@ -143,30 +143,38 @@
       <!--Consulta-->
       <div *ngIf="consul">
         <div>
-          <table class="table table-striped">
+          <table id="tabla" class="table table-striped">
             <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">ID</th>
+              <th scope="col">No. Factura</th>
+              <th scope="col">Serie Factura</th>
+              <th scope="col">Tipo de Pago</th>
+              <th scope="col" class="center">Detalle</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
+            <tr *ngFor="let factura of tipoPagoFacturaList">
+              <th scope="row">{{factura.idFactura}}</th>
+              <td>{{factura.numeroFactura}}</td>
+              <td>{{factura.serieFactura}}</td>
+              <td>{{factura.tipoPago}}</td>
+              <td class="center">
+                <button class="btn" (click)="detallesFactura(content, factura)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                  </svg>
+                </button>
+              </td>
             </tr>
             </tbody>
           </table>
+
+        <!--          Exportar-->
+          <button class="btn" (click)="exportToExcel()">
+            Exportar
+          </button>
         </div>
       </div>
 
@@ -219,3 +227,65 @@
     </div>
   </div>
 </div>
+
+<!--          TAMPLATE-->
+<ng-template #content let-modal>
+  <div class="modal-header espacio">
+    <h4 class="modal-title" id="modal-basic-title">Detalles de Factura </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body espacio">
+<!--    <form>-->
+<!--      <div class="mb-3">-->
+<!--        <div class="row  justify-content-center">-->
+<!--          <div class="col-4">-->
+<!--            <h6>Nombre:</h6>-->
+<!--            <label >{{detalleFactura.nombre}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Apellido:</h6>-->
+<!--            <label >{{detalleFactura.apellido}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Identidad:</h6>-->
+<!--            <label >{{detalleFactura.identidad}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Nit:</h6>-->
+<!--            <label >{{detalleFactura.nit}}</label>-->
+<!--          </div>-->
+<!--          <div class="col-4">-->
+<!--            <h6>Cod Cliente:</h6>-->
+<!--            <label >{{detalleFactura.clienteList[0].idCliente}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Edad:</h6>-->
+<!--            <label >{{detalleFactura.edad}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Telefono:</h6>-->
+<!--            <label >{{detalleFactura.telefono}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Email:</h6>-->
+<!--            <label >{{detalleFactura.email}}</label>-->
+<!--          </div>-->
+<!--          <div class="col-4">-->
+<!--            <h6>Departamento:</h6>-->
+<!--            <label >{{detalleFactura[2].departamento}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Municipio:</h6>-->
+<!--            <label >{{detalleFactura[1].municipio}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Calle:</h6>-->
+<!--            <label >{{detalleFactura[0].calle}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Avenida:</h6>-->
+<!--            <label >{{detalleFactura[0].avenida}}</label>-->
+<!--            <br><br>-->
+<!--            <h6>Otros:</h6>-->
+<!--            <label >{{detalleFactura[0].otros}}</label>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+  </div>
+  <div class="modal-footer espacio">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+  </div>
+</ng-template>
+

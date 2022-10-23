@@ -38,3 +38,17 @@ a{
 .titulo{
   text-align: right !important;
 }
+
+.exit{
+  color: white;
+  padding: 10px;
+  border-color: white;
+  border-style: solid;
+  border-radius: 5px;
+  margin-right: 2%;
+}
+
+.exit:hover{
+  background-color: #DD403A;
+}
+

@@ -60,9 +60,9 @@ export class LoginComponent implements OnInit {
       res = JSON.parse(JSON.stringify(res))
       console.log(res)
 
-      if(res.estado == "Activo"){
+      if(res.codError == 0){
         // Usuario OK
-        console.log(res.estado)
+        console.log(res.codError)
         localStorage.setItem("user", JSON.stringify(res));
         location.href = "/clientes";
       }else{
@@ -90,11 +90,6 @@ export class LoginComponent implements OnInit {
 
   crearUsuario() {
     location.href = "/creacion";
-  }
-
-  createuser(user: any) {
-    localStorage.setItem("user", JSON.stringify(user));
-    location.href = "/home";
   }
 
   welcome() {
