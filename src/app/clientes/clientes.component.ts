@@ -25,6 +25,7 @@ export class ClientesComponent implements OnInit {
   buscaIdentidad: any = {}
   msjEliminaCliente: String = ""
   departamentoList:any = []
+  municipioList:any = []
   //banderas
   consul: boolean = true
   crea: boolean = false
@@ -290,8 +291,14 @@ export class ClientesComponent implements OnInit {
     } else if (res == "e") {
       alert("No hay comunicación con el servidor!!")
     } else if (res != null) {
+      alert("Tu nuevo usuario es: " + res.usuario)
 
+      this.salir()
     }
+  }
+
+  salir(){
+    this.persona = {}
   }
 
   //Catalogos
@@ -331,9 +338,41 @@ export class ClientesComponent implements OnInit {
     }
   }
 
-  actualizaMunicipios(){
-    console.log("prueba")
+  // consulta Municipio
+  consultaMuni(){
+    this.municipioList = []
+    if(this.departamento != ""){
+      this.municipioList = []
+      this.consultaMunicipio(this.departamento).subscribe(
+        (respuesta: any) => this.consultaMunicipioResponse(respuesta)
+      )
+    }
   }
+  consultaMunicipio(id:any) {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/municipio/consulta/" + id, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaMunicipioResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.municipioList = res
+      console.log(this.municipioList)
+    }
+  }
+
+
 
 
   //MODULO DE ELIMINACION ---------------------------------------------------------
@@ -415,8 +454,5 @@ export class ClientesComponent implements OnInit {
   //Elimina Cliente
   eliminaCliente(){
   let clienteEliminar = this.personaDetalle
-
-
-
   }
 }

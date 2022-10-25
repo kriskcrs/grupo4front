@@ -25,6 +25,8 @@ import { EstadosComponent } from './estados/estados.component';
 import { TipoIdentidadComponent } from './tipo-identidad/tipo-identidad.component';
 import { DirecionesComponent } from './direciones/direciones.component';
 import { CreacionUsuarioComponent } from './creacion-usuario/creacion-usuario.component';
+import { ReservacionComponent } from './reservacion/reservacion.component';
+import { ClinicasComponent } from './clinicas/clinicas.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { CreacionUsuarioComponent } from './creacion-usuario/creacion-usuario.co
     EstadosComponent,
     TipoIdentidadComponent,
     DirecionesComponent,
-    CreacionUsuarioComponent
+    CreacionUsuarioComponent,
+    ReservacionComponent,
+    ClinicasComponent
   ],
   imports: [
     BrowserModule,

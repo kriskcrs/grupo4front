@@ -16,6 +16,8 @@ import { EstadosComponent} from "./estados/estados.component";
 import { TipoIdentidadComponent} from "./tipo-identidad/tipo-identidad.component";
 import { DirecionesComponent} from "./direciones/direciones.component";
 import { CreacionUsuarioComponent } from "./creacion-usuario/creacion-usuario.component";
+import {ClinicasComponent} from "./clinicas/clinicas.component";
+import {ReservacionComponent} from "./reservacion/reservacion.component";
 
 const routes: Routes = [
 
@@ -35,6 +37,8 @@ const routes: Routes = [
   {path:'tipoDeidentidades', component: TipoIdentidadComponent},
   {path:'direcciones', component: DirecionesComponent},
   {path:'creacion', component: CreacionUsuarioComponent},
+  {path:'clinicas',component: ClinicasComponent},
+  {path:'reservacion', component: ReservacionComponent},
 ];
 
 @NgModule({

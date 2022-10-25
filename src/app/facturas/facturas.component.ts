@@ -40,8 +40,6 @@ export class FacturasComponent implements OnInit {
     this.consultaFactura().subscribe(
       (respuesta: any) => this.consultaFacturaResponse(respuesta)
     )
-
-
   }
 
   // menus de pantalla
@@ -123,6 +121,7 @@ export class FacturasComponent implements OnInit {
   //Seteo de tipo de pago
   tipoDePago() {
     console.log(this.tipoPagoList)
+    this.tipoPagoFacturaList = []
 
     for(let factura of this.facturasList){
       for(let tipoPago of this.tipoPagoList){
@@ -161,7 +160,7 @@ export class FacturasComponent implements OnInit {
     setTimeout(() => {
         this.openXl(content)
       },
-      1000);
+      700);
 
   }
 

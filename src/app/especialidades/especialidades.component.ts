@@ -137,7 +137,9 @@ export class EspecialidadesComponent implements OnInit {
       alert("No hay comunicación con el servidor!!")
     } else if (res != null) {
       // ok
-      console.log(JSON.parse(JSON.stringify(res)))
+      res = JSON.parse(JSON.stringify(res))
+      alert("Se creo la especialidad: " + res.especialidad)
+      this.especialidad = {}
     }
   }
 

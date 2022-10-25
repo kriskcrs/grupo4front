@@ -14,11 +14,10 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class TipoIdentidadComponent implements OnInit {
 
   // variables
-  especialidadDetalle: any = {}
-  especialidad: any = {}
-  especialidadesList: any = []
-  buscaEsp: String = ""
+  tipoIdentidad: any = {}
+  tipoIdentidadList: any = []
   msjEliminaCliente: String = ""
+
   //banderas
   consul: boolean = true
   crea: boolean = false
@@ -35,6 +34,11 @@ export class TipoIdentidadComponent implements OnInit {
   constructor(private http: HttpClient, private modalService: NgbModal) {}
 
   ngOnInit(): void {
+
+    // consulta de tipos de indentidad
+    this.consultaTipoIdentidad().subscribe(
+      (respuesta: any) => this.consultaTipoIdentidadResponse(respuesta)
+    )
   }
 
   // menus de pantalla
@@ -44,9 +48,103 @@ export class TipoIdentidadComponent implements OnInit {
     this.elim = false
 
     switch (x){
-      case 1: this.consul = true; break;
-      case 2: this.crea = true; break;
-      case 3: this.elim = true; break;
+      case 1:
+        this.consul = true;
+        this.consultaTipoIdentidad().subscribe(
+        (respuesta: any) => this.consultaTipoIdentidadResponse(respuesta)
+        );
+        break;
+      case 2:
+        this.crea = true;
+        break;
+      case 3:
+        this.elim = true;
+        // this.consultaTipoIdentidad().subscribe(
+        // (respuesta: any) => this.consultaTipoIdentidadResponse(respuesta)
+        // );
+        break;
+    }
+  }
+
+  // consulta tipo de identidad
+  consultaTipoIdentidad() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/TipoIdentidad/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+
+  //Respuesta para la consulta de los tipos de identidad
+  consultaTipoIdentidadResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.tipoIdentidadList = res
+      console.log(this.tipoIdentidadList)
+    }
+  }
+
+  //EXPORT TABLE
+  name = 'ExcelSheet.xlsx';
+  exportToExcel(): void {
+    let element = document.getElementById('tablaClientes');
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    const book: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(book, worksheet, 'Sheet1');
+
+    XLSX.writeFile(book, this.name);
+  }
+
+
+  // MODULO DE CREACION -----------------------------------------------------------
+  formularioCreacion(){
+    let formularioValido: any = document.getElementById("createForm");
+    if (formularioValido.reportValidity()) {
+
+      // Crecion de direccion
+      this.creacionTipoIdentidad(this.tipoIdentidad).subscribe(
+        (respuesta: any) => this.creacionTipoIdentidadResponse(respuesta)
+      )
+    }
+  }
+
+  // Crear Estado
+  creacionTipoIdentidad(tipoIdentidad: any) {
+
+    console.log("Creacion de tipo identidad")
+    console.log(tipoIdentidad)
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post<any>("http://localhost:4043/TipoIdentidad/crea", tipoIdentidad, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  creacionTipoIdentidadResponse(res: any) {
+    console.log(res + " aqui va el res ")
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+
+      res = JSON.parse(JSON.stringify(res))
+      console.log(res)
+      alert("Se creo el tipo de identidad: " + res.tipoIdentidad)
+      this.tipoIdentidad = {}
+
     }
   }
 

@@ -21,118 +21,119 @@
   </div>
   <div  class="row justify-content-center">
     <!--formulario-->
-    <div id="cuerpo" class="col-8 text-center">
+    <div id="cuerpo" class="col-8 text-center container">
       <h5>¡Crea tu usuario!</h5>
       <br>
       <form class="login-form" (ngSubmit)="formularioCreacion()" id="createForm">
         <!--            Nombre Apellido-->
         <div class="row justify-content-center">
-          <div class="col-3">
-            <label class="form-label">Nombre</label>
+          <div class="col-3 form-floating">
             <input type="text" class="form-control" id="nombre" placeholder="Santiago"  [(ngModel)]="persona.nombre" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Nombre</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-3">
-            <label class="form-label">Apellido</label>
+          <div class="col-3 form-floating">
             <input type="text" class="form-control" id="apellido" placeholder="Batres"  [(ngModel)]="persona.apellido" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Apellido</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-3">
-            <label class="form-label">Telefono</label>
+          <div class="col-3 form-floating">
             <input type="text" class="form-control" id="telefono" placeholder="12345678"  [(ngModel)]="persona.telefono" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Telefono</label>
           </div>
         </div>
-        <br>
+        <br><br>
         <!--            TipoIdentidad Identidad-->
         <div class="row justify-content-center">
-          <div class="col-3">
-            <label class="form-label">Tipo de Identidad</label>
+          <div class="col-3 form-floating">
             <select class="form-select" aria-label="Default select example"  [(ngModel)]="persona.tipoIdentidadIdTipoIdentidad" [ngModelOptions]="{standalone: true}" required>
               <option selected></option>
-              <option *ngFor="let tipoIdentidad of tipoIdentidadList" value="{{tipoIdentidad.idTipoIdentidad}}">
+              <option *ngFor="let tipoIdentidad of tipoIdentidadList" value="{{tipoIdentidad.idTipoIdentidad}}"> &nbsp; &nbsp;
                 {{tipoIdentidad.tipoIdentidad}}
               </option>
             </select>
+            <label class="form-label">&nbsp;&nbsp;Tipo de Identidad</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-3">
-            <label class="form-label">Identidad</label>
+          <div class="col-3 form-floating">
             <input type="text" class="form-control" id="identidad" placeholder="1234567890123"  [(ngModel)]="persona.identidad" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Identidad</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-3">
-            <label class="form-label">Nit</label>
+          <div class="col-3 form-floating">
             <input type="text" class="form-control" id="nit" placeholder="1234567-8"  [(ngModel)]="persona.nit" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Nit</label>
           </div>
         </div>
-        <br>
+        <br><br>
         <!--            Email Edad-->
         <div class="row justify-content-center">
-          <div class="col-3">
-            <label class="form-label">E-mail</label>
+          <div class="col-3 form-floating">
             <input type="email" class="form-control" id="email" placeholder="sbatres@gmail.com"  [(ngModel)]="persona.email" [ngModelOptions]="{standalone: true}" required >
+            <label class="form-label">&nbsp;&nbsp;E-mail</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-3">
-            <label class="form-label">Edad</label>
+          <div class="col-3 form-floating">
             <input type="number" class="form-control" id="edad" placeholder="20"  [(ngModel)]="persona.edad" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Edad</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-3">
-            <label class="form-label">Departamento</label>
+          <div class="col-3 form-floating">
             <select  class="form-select" aria-label="Default select example" (change)="consultaMuni()" [(ngModel)]="departamento" [ngModelOptions]="{standalone: true}" required>
               <option selected></option>
               <option  *ngFor="let departament of departamentoList" value="{{departament.idDepartamento}}">
-                {{departament.departamento}}
+                &nbsp; &nbsp;{{departament.departamento}}
               </option>
             </select>
+            <label class="form-label">&nbsp;&nbsp;Departamento</label>
           </div>
         </div>
-        <br>
+        <br><br>
         <!--            Direccion-->
         <div class="row justify-content-center">
-          <div class="col-3">
-            <label class="form-label">Municipio</label>
+          <div class="col-3 form-floating">
             <select class="form-select" aria-label="Default select example" [(ngModel)]="direccion.municipioIdMunicipio" [ngModelOptions]="{standalone: true}" required>
               <option selected></option>
               <option  *ngFor="let municipio of municipioList" value="{{municipio.idmunicipio}}">
-                {{municipio.municipio}}
+                &nbsp; &nbsp; {{municipio.municipio}}
               </option>
             </select>
+            <label class="form-label">&nbsp;&nbsp;Municipio</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-1">
-            <label class="form-label">Calle</label>
+          <div class="col-1 form-floating">
             <input type="text" class="form-control" id="calle" placeholder="2"  [(ngModel)]="direccion.calle" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Calle</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-1">
-            <label class="form-label">Avenida</label>
+          <div class="col-1 form-floating">
             <input type="text" class="form-control" id="avenida" placeholder=" 1"  [(ngModel)]="direccion.avenida" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Avenida</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-3">
-            <label class="form-label">Dirección</label>
+          <div class="col-3 form-floating">
             <input type="text" class="form-control" id="direccion" placeholder="2-53 Zona 1 Aldea Cascabel"  [(ngModel)]="direccion.otros" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Dirección</label>
           </div>
         </div>
-        <br>
+        <br><br>
         <!--            Contraseñas-->
         <div class="row justify-content-center">
-          <div class="col-3">
-            <label class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="contraseña" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" required>
+          <div class="col-3 form-floating">
+            <input type="password" class="form-control" id="contraseña"  [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Contraseña</label>
           </div>
           <div class="col-1"></div>
-          <div class="col-3">
-            <label class="form-label">Confirmar Contraseña</label>
+          <div class="col-3 form-floating">
             <input type="password" class="form-control" id="contraseñaConfirmar" [(ngModel)]="user.passwordConfirm" [ngModelOptions]="{standalone: true}" required>
+            <label class="form-label">&nbsp;&nbsp;Contraseña</label>
           </div>
         </div>
-        <br>
+        <br><br>
+        <!--            Boton Guardar-->
         <div class="row justify-content-center">
-          <div class="col-3">
-            <button type="submit" class="btn btn-guardar">Guardar Cliente</button>
+          <div class="col-2">
+            <button type="submit" class="btn">Guardar Cliente</button>
           </div>
         </div>
       </form>

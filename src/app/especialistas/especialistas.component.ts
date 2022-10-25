@@ -25,6 +25,8 @@ export class EspecialistasComponent implements OnInit {
   tipoIdentidadList: any = []
   buscaIdentidad: any = {}
   msjEliminaCliente: String = ""
+  departamentoList:any = []
+  municipioList:any = []
   //banderas
   consul: boolean = true
   crea: boolean = false
@@ -58,7 +60,10 @@ export class EspecialistasComponent implements OnInit {
       case 1: this.consul = true; this.consultaEspecialista().subscribe(
         (respuesta: any) => this.consultaEspecialistaResponse(respuesta)
       ); break;
-      case 2: this.crea = true;  break;
+      case 2:
+        this.crea = true;
+        this.consultaCatalogos();
+        break;
       case 3: this.elim = true; this.consultaTipoIdentidad().subscribe(
         (respuesta: any) => this.consultaTipoIdentidadResponse(respuesta)
       ); break;
@@ -282,9 +287,82 @@ export class EspecialistasComponent implements OnInit {
     } else if (res == "e") {
       alert("No hay comunicación con el servidor!!")
     } else if (res != null) {
-
+      alert()
     }
   }
+
+  //Catalogos
+  consultaCatalogos(){
+    //Tipos de identidad
+    this.consultaTipoIdentidad().subscribe(
+      (respuesta: any) => this.consultaTipoIdentidadResponse(respuesta)
+    )
+
+    //Departamentos
+    this.consultaDepartamento().subscribe(
+      (respuesta: any) => this.consultaDepartamentoResponse(respuesta)
+    )
+  }
+
+  consultaDepartamento() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/departamento/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaDepartamentoResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.departamentoList = res
+      console.log(this.departamentoList)
+    }
+  }
+
+  // consulta Municipio
+  consultaMuni(){
+    this.municipioList = []
+    if(this.departamento != ""){
+      this.municipioList = []
+      this.consultaMunicipio(this.departamento).subscribe(
+        (respuesta: any) => this.consultaMunicipioResponse(respuesta)
+      )
+    }
+  }
+  consultaMunicipio(id:any) {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/municipio/consulta/" + id, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaMunicipioResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.municipioList = res
+      console.log(this.municipioList)
+    }
+  }
+
+
 
 
   //MODULO DE ELIMINACION ---------------------------------------------------------

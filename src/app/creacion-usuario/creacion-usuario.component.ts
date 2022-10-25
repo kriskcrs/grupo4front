@@ -36,7 +36,7 @@ export class CreacionUsuarioComponent implements OnInit {
     }
   }
 
-  // consultaTiposIdentidad
+  // consulta Municipio
   consultaMunicipio(id:any) {
     console.log("Llamada al servicio")
     var httpOptions = {
@@ -246,6 +246,7 @@ export class CreacionUsuarioComponent implements OnInit {
   salir(){
     location.href="/login"
   }
+
 
 }
 

@@ -77,14 +77,6 @@
           </div>
           <br>
           <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-signpost-split" viewBox="0 0 16 16">
-              <path d="M7 7V1.414a1 1 0 0 1 2 0V2h5a1 1 0 0 1 .8.4l.975 1.3a.5.5 0 0 1 0 .6L14.8 5.6a1 1 0 0 1-.8.4H9v10H7v-5H2a1 1 0 0 1-.8-.4L.225 9.3a.5.5 0 0 1 0-.6L1.2 7.4A1 1 0 0 1 2 7h5zm1 3V8H2l-.75 1L2 10h6zm0-5h6l.75-1L14 3H8v2z"/>
-            </svg>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="/direcciones">Direcciones</a>
-          </div>
-          <br>
-          <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
               <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
               <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
@@ -142,49 +134,91 @@
     <div id="content" class="container">
       <!--Consulta-->
       <div *ngIf="consul">
-        Pendiente :/
-<!--        <div>-->
-<!--          <table class="table table-striped">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--              <th scope="col">#</th>-->
-<!--              <th scope="col">First</th>-->
-<!--              <th scope="col">Last</th>-->
-<!--              <th scope="col">Handle</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr>-->
-<!--              <th scope="row">1</th>-->
-<!--              <td>Mark</td>-->
-<!--              <td>Otto</td>-->
-<!--              <td>@mdo</td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--              <th scope="row">2</th>-->
-<!--              <td>Jacob</td>-->
-<!--              <td>Thornton</td>-->
-<!--              <td>@fat</td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--          </table>-->
-<!--        </div>-->
+        <div>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Id Sede</th>
+              <th scope="col">Sede</th>
+              <th scope="col" style="text-align: center">Detalle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let sede of sedeList">
+              <th scope="row">{{sede.idSede}}</th>
+              <td>{{sede.sede}}</td>
+              <td class="center">
+                <button class="btn" (click)="direccionSede(content, sede)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!--Creacion-->
       <div *ngIf="crea">
         <div class="container create">
-          <h2>Creación de Identidad</h2>
+          <h2>Creación de Sede</h2>
           <br>
-          <form>
-            <div class="mb-3 row">
-              <div class="col-3">
-                <label class="form-label">Nombre de Identidad</label>
-                <input type="text" class="form-control" id="tipoIdentidad">
-                <div id="msjRol" class="form-text">Ej. Pasaporte</div>
+          <form class="login-form" (ngSubmit)="formularioCreacion()" id="createForm">
+            <!--            Sede -->
+            <div class="row">
+              <div class="col-3 form-floating">
+                <input type="text" class="form-control" id="nombre" placeholder="Santiago"  [(ngModel)]="sede.sede" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Sede</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example" (change)="consultaMuni()" [(ngModel)]="departamento" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let departament of departamentoList" value="{{departament.idDepartamento}}">
+                    &nbsp; &nbsp;{{departament.departamento}}
+                  </option>
+                </select>
+                <label class="form-label">Departamento</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-3 form-floating">
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="direccion.municipioIdMunicipio" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let municipio of municipioList" value="{{municipio.idmunicipio}}">
+                    &nbsp; &nbsp; {{municipio.municipio}}
+                  </option>
+                </select>
+                <label class="form-label">Municipio</label>
               </div>
             </div>
-            <button type="button" class="btn btn-guardar">Guardar Estado</button>
+            <br><br>
+            <!--            Direccion-->
+            <div class="row">
+              <div class="col-2 form-floating">
+                <input type="text" class="form-control" id="calle" placeholder="2"  [(ngModel)]="direccion.calle" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Calle</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-2 form-floating">
+                <input type="text" class="form-control" id="avenida" placeholder=" 1"  [(ngModel)]="direccion.avenida" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Avenida</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-5 form-floating">
+                <input type="text" class="form-control" id="direccion" placeholder="2-53 Zona 1 Aldea Cascabel"  [(ngModel)]="direccion.otros" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Dirección</label>
+              </div>
+            </div>
+            <br><br>
+            <!--            Boton Guardar-->
+            <div class="row justify-content-center">
+              <div class="col-2">
+                <button type="submit" class="btn">Guardar Sede</button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -220,3 +254,46 @@
     </div>
   </div>
 </div>
+
+<!--          TAMPLATE-->
+<ng-template #content let-modal>
+  <div class="modal-header espacio">
+    <h4 class="modal-title" id="modal-basic-title">Detalles de Sede </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body espacio">
+    <div class="mb-3">
+      <div class="row  justify-content-center">
+        <div class="col-4">
+          <h6>ID Sede:</h6>
+          <label >{{sedeSelec.idSede}}</label>
+          <br><br>
+          <h6>Sede:</h6>
+          <label >{{sedeSelec.sede}}</label>
+          <br><br>
+          <h6>Departamento:</h6>
+          <label >{{sedeDireccion[2].departamento}}</label>
+          <br><br>
+          <h6>Municipio:</h6>
+          <label >{{sedeDireccion[1].municipio}}</label>
+          </div>
+          <div class="col-4">
+            <h6>Calle:</h6>
+            <label >{{sedeDireccion[0].calle}}</label>
+            <br><br>
+            <h6>Avenida:</h6>
+            <label >{{sedeDireccion[0].avenida}}</label>
+            <br><br>
+            <h6>Otros:</h6>
+            <label >{{sedeDireccion[0].otros}}</label>
+            <br><br>
+            <h6>Clinicas:</h6>
+            <label >{{sedeSelec.clinicas}}</label>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer espacio">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+  </div>
+</ng-template>

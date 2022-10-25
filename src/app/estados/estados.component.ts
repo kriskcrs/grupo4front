@@ -14,11 +14,10 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class EstadosComponent implements OnInit {
 
   // variables
-  especialidadDetalle: any = {}
-  especialidad: any = {}
-  especialidadesList: any = []
-  buscaEsp: String = ""
+  estado: any = {}
+  estadoList: any = []
   msjEliminaCliente: String = ""
+
   //banderas
   consul: boolean = true
   crea: boolean = false
@@ -74,12 +73,12 @@ export class EstadosComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/Especialidad/consulta", httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/estado/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }
 
-  //Respuesta para la consulta de las especialidades
+  //Respuesta para la consulta de las estados
   consultaEstadosResponse(res: any) {
     console.log("res = " + res)
 
@@ -88,8 +87,8 @@ export class EstadosComponent implements OnInit {
     } else if (res != null) {
       // ok
       res = JSON.parse(JSON.stringify(res))
-      console.log(res)
-      this.especialidadesList = res
+      this.estadoList = res
+      console.log(this.estadoList)
     }
   }
 
@@ -104,15 +103,48 @@ export class EstadosComponent implements OnInit {
 
     XLSX.writeFile(book, this.name);
   }
+
+
   // MODULO DE CREACION -----------------------------------------------------------
-  // formularioCreacion(){
-  //   let formularioValido: any = document.getElementById("createForm");
-  //   if (formularioValido.reportValidity()) {
-  //       // Crecion de direccion
-  //       this.creacionEspecialidad(this.especialidad).subscribe(
-  //         (respuesta: any) => this.creacionEspecialidadResponse(respuesta)
-  //       )
-  //   }
-  // }
+  formularioCreacion(){
+    let formularioValido: any = document.getElementById("createForm");
+    if (formularioValido.reportValidity()) {
+
+      // Crecion de direccion
+      this.creacionEstado(this.estado).subscribe(
+        (respuesta: any) => this.creacionEstadoResponse(respuesta)
+      )
+    }
+  }
+
+  // Crear Estado
+  creacionEstado(estado: any) {
+
+    console.log("Creacion de Estado")
+    console.log(estado)
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post<any>("http://localhost:4043/estado/crea", estado, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  creacionEstadoResponse(res: any) {
+    console.log(res + " aqui va el res ")
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+
+      res = JSON.parse(JSON.stringify(res))
+      console.log(res)
+      alert("Se creo el estado: " + res.nombreEstado)
+      this.estado = {}
+
+    }
+  }
 
 }
