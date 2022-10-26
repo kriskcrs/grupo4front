@@ -11,14 +11,16 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 export class ClinicasComponent implements OnInit {
 
   //variables
-  sedeList: any = []
-  sedeDireccion:any = []
-  sedeSelec:any = []
-  sede:any = {}
-  direccion:any = {}
-  departamento:String = ""
-  departamentoList:any = []
-  municipioList:any = []
+  clinicaList: any = []
+  clinicaListSede:any = []
+  clinicaSelect:any = []
+  clinicaEspecialidadList:any = []
+  especialidadList:any =  []
+  especialidadClinicaSelect:any = []
+  especialidadclinicaSelectDispoible:any = []
+  creaClinicaEspecialidad:any = {}
+  sedesList: any = []
+  clinica:any = {}
 
   // modal
   closeResult = '';
@@ -28,6 +30,7 @@ export class ClinicasComponent implements OnInit {
   crea: boolean = false
   elim: boolean= false
   busca: boolean = false
+  creaClinicaEspecialidadBandera = false
 
   constructor(private http: HttpClient, private modalService: NgbModal) {}
 
@@ -46,8 +49,8 @@ export class ClinicasComponent implements OnInit {
       case 2:
         this.crea = true;
         //Departamentos
-        this.consultaDepartamento().subscribe(
-          (respuesta: any) => this.consultaDepartamentoResponse(respuesta)
+        this.consultaSedes().subscribe(
+          (respuesta: any) => this.consultaSedesResponse(respuesta)
         )
         break;
       case 3: this.elim = true; break;
@@ -57,9 +60,15 @@ export class ClinicasComponent implements OnInit {
 
   //consulta sedes
   consultaS(){
+    this.consultaClinica().subscribe(
+      (respuesta: any) => this.consultaClinicaResponse(respuesta)
+    )
+
     this.consultaSedes().subscribe(
       (respuesta: any) => this.consultaSedesResponse(respuesta)
     )
+
+
   }
 
   consultaSedes() {
@@ -81,109 +90,135 @@ export class ClinicasComponent implements OnInit {
     } else if (res != null) {
       // ok
       res = JSON.parse(JSON.stringify(res))
-      this.sedeList = res
-      console.log(this.sedeList)
+      this.sedesList = res
+      console.log(this.sedesList)
+
+
+      this.relacion(1)
     }
   }
 
-  direccionSede(content:any, sede:any){
-    this.sedeSelec = sede
-    this.consultaDireccion(sede.idSede).subscribe(
-      (respuesta: any) => this.consultaDireccionResponse(respuesta)
-    )
+  relacion(bandera:any){
+    console.log("Entra en relacion")
 
-    this.sedeSelec.clinicas = this.sedeSelec.clinicaList.length
-    console.log("Cantidad de clinicas:" + this.sedeSelec.clinicas)
-    setTimeout(() => {
-        this.openXl(content)
-      },
-      700);
+    switch (bandera){
+      case 1:
+        this.clinicaListSede = []
+        for (let clinica of this.clinicaList){
+          for(let sede of this.sedesList){
+            if (clinica.sedeIdSede == sede.idSede){
+              clinica.sede = sede.sede
+            }
+          }
+          this.clinicaListSede.push(clinica)
+        }
+        break;
+      case 2:
+        console.log("Entra en caso 2")
+        this.especialidadClinicaSelect = []
+        this.especialidadclinicaSelectDispoible = []
+
+        console.log("Listado de especialidades")
+        console.log(this.clinicaEspecialidadList)
+
+        if (this.clinicaEspecialidadList.length < 1){
+          this.especialidadclinicaSelectDispoible = this.especialidadList
+        }else{
+          for (let clinicaEspecialidad of this.clinicaEspecialidadList){
+            for(let especialidad of this.especialidadList){
+
+              console.log("clinicaEspecialidad a Recorrer")
+
+              if(clinicaEspecialidad.especialidadIdEspecialidad == especialidad.idEspecialidad){
+                clinicaEspecialidad.especialidad = especialidad.especialidad
+              }else{
+                console.log("entro en else")
+                this.especialidadclinicaSelectDispoible.push(especialidad)
+              }
+            }
+            this.especialidadClinicaSelect.push(clinicaEspecialidad)
+          }
+          console.log("especialidadclinicaSelectDispoible" + this.especialidadclinicaSelectDispoible)
+        }
+    }
   }
 
   // consultaDireccion
-  consultaDireccion(id: any) {
+  consultaClinica() {
     console.log("Llamada al servicio")
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/direccion/consulta/" + id, httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/clinica/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }
-  consultaDireccionResponse(res: any) {
-
+  consultaClinicaResponse(res: any) {
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
     } else if (res != null) {
       // ok
       res = JSON.parse(JSON.stringify(res))
-      this.sedeDireccion = res
-      console.log(this.sedeDireccion)
+      this.clinicaList = res
+      console.log(this.clinicaList)
       console.log("termino response")
     }
   }
 
-  //consulta departamentos
-  consultaDepartamento() {
-    console.log("Llamada al servicio")
-    var httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-    return this.http.get<any>("http://localhost:4043/departamento/consulta", httpOptions).pipe(
-      catchError(e => "e")
-    )
-  }
-  consultaDepartamentoResponse(res: any) {
-    console.log("res = " + res)
-
-    if (res == "e" || res == null) {
-      alert("No hay comunicación con el servidor!!")
-    } else if (res != null) {
-      // ok
-      res = JSON.parse(JSON.stringify(res))
-      this.departamentoList = res
-      console.log(this.departamentoList)
-    }
-  }
-
-  //consulta municipios
-  consultaMuni(){
-    this.municipioList = []
-    if(this.departamento != ""){
-      this.municipioList = []
-      this.consultaMunicipio(this.departamento).subscribe(
-        (respuesta: any) => this.consultaMunicipioResponse(respuesta)
+  //Creacion de clinica
+  formularioCreacion(){
+    let formularioValido: any = document.getElementById("createForm");
+    if (formularioValido.reportValidity()) {
+      this.creacionClinica(this.clinica).subscribe(
+        (respuesta: any) => this.creacionClinicaResponse(respuesta)
       )
     }
   }
 
-  // consulta Municipio
-  consultaMunicipio(id:any) {
-    console.log("Llamada al servicio")
+  // Crear Direccion
+  creacionClinica(clinica: any) {
+
+    console.log("Creacion de clinica")
+    console.log(clinica)
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/municipio/consulta/" + id, httpOptions).pipe(
+    return this.http.post<any>("http://localhost:4043/clinica/crea", clinica, httpOptions).pipe(
       catchError(e => "e")
     )
   }
-  consultaMunicipioResponse(res: any) {
-    console.log("res = " + res)
+  creacionClinicaResponse(res: any) {
+    console.log(res + " aqui va el res ")
 
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
     } else if (res != null) {
       // ok
+
       res = JSON.parse(JSON.stringify(res))
-      this.municipioList = res
-      console.log(this.municipioList)
+      console.log(res)
+      alert("Se creo la clinica: " + res.clinica)
+
     }
+  }
+
+  clinicaEspecialidad(content:any, clinica:any){
+
+    this.clinicaSelect = clinica
+    // consulta de direccion
+    this.consultaClinicaEspecialidad(clinica.idclinica).subscribe(
+      (respuesta: any) => this.consultaClinicaEspecialidadResponse(respuesta)
+    )
+
+    setTimeout(() => {
+        // console.log(this.direccionCliente[0].otros)
+        this.openXl(content)
+      },
+      700);
   }
 
   //MODAL
@@ -209,31 +244,90 @@ export class ClinicasComponent implements OnInit {
     }
   }
 
-  //Creacion de Sede
-  formularioCreacion(){
-    let formularioValido: any = document.getElementById("createForm");
+  // consulta Clinica Especialidad
+  consultaClinicaEspecialidad(id:any) {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/clinicaEspecialidad/consulta/" + id, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaClinicaEspecialidadResponse(res: any) {
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.clinicaEspecialidadList = res
+      console.log(this.clinicaEspecialidadList)
+      console.log("termino response")
+
+      this.consultaEspecialidad().subscribe(
+        (respuesta: any) => this.consultaEspecialidadResponse(respuesta)
+      )
+    }
+  }
+
+  // consulta Especialidad
+  consultaEspecialidad() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/especialidad/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaEspecialidadResponse(res: any) {
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.especialidadList = res
+      console.log(this.especialidadList)
+
+      this.relacion(2)
+    }
+  }
+
+  creaClinicaEspecialidadClick(){
+    this.creaClinicaEspecialidadBandera = true
+  }
+
+  //Creacion de clinica especialidad
+  formularioCreacion2(){
+    let formularioValido: any = document.getElementById("createForm2");
     if (formularioValido.reportValidity()) {
-      this.creacionDireccion(this.direccion).subscribe(
-        (respuesta: any) => this.creacionDireccionResponse(respuesta)
+      this.crearClinicaEspecialidad(this.creaClinicaEspecialidad).subscribe(
+        (respuesta: any) => this.crearClinicaEspecialidadResponse(respuesta)
       )
     }
   }
 
-  // Crear Direccion
-  creacionDireccion(direc: any) {
+  // Crear clinica especialidad
+  crearClinicaEspecialidad(clinicaEspecialidad: any) {
+    console.log("Creacion de clinica especialidad")
 
-    console.log("Creacion de direccion")
-    console.log(direc)
+    clinicaEspecialidad.clinicaIdClinica = this.clinicaSelect.idclinica
+
+    console.log(clinicaEspecialidad)
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-    return this.http.post<any>("http://localhost:4043/direccion/crea", direc, httpOptions).pipe(
+    return this.http.post<any>("http://localhost:4043/clinicaEspecialidad/crea", clinicaEspecialidad, httpOptions).pipe(
       catchError(e => "e")
     )
   }
-  creacionDireccionResponse(res: any) {
+  crearClinicaEspecialidadResponse(res: any) {
     console.log(res + " aqui va el res ")
 
     if (res == "e" || res == null) {
@@ -242,42 +336,12 @@ export class ClinicasComponent implements OnInit {
       // ok
 
       res = JSON.parse(JSON.stringify(res))
-      this.sede.direccionIdDireccion = res.idDireccion
-      console.log(this.sede)
+      console.log(res)
 
-      // creacion de persona
-      this.creacionSede(this.sede).subscribe(
-        (respuesta: any) => this.creacionSedeResponse(respuesta)
-      )
+      alert("Se agrego la especialidad")
+
+      this.creaClinicaEspecialidadBandera = false;
+
     }
   }
-
-  // Crear Sede
-  creacionSede(sede: any) {
-
-    console.log("Creacion de sede")
-    console.log(sede)
-    var httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-    return this.http.post<any>("http://localhost:4043/sede/crea", sede, httpOptions).pipe(
-      catchError(e => "e")
-    )
-  }
-  creacionSedeResponse(res: any) {
-    console.log(res + " aqui va el res ")
-
-    if (res == "e" || res == null) {
-      alert("No hay comunicación con el servidor!!")
-    } else if (res != null) {
-      // ok
-
-      res = JSON.parse(JSON.stringify(res))
-      alert("Se creo la sede: " + res.sede)
-    }
-  }
-
-
 }

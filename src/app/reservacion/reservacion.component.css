@@ -1,0 +1,105 @@
+.navbar{
+  background-color: #377771 !important;
+  color: white !important;
+  height: 10%;
+}
+
+nav-link {
+  color: white !important;
+}
+
+#menu{
+  background-color: #377771 !important;
+}
+
+a{
+  color: white;
+  text-decoration: none;
+}
+
+.exit{
+  color: white;
+  padding: 10px;
+  border-color: white;
+  border-style: solid;
+  border-radius: 5px;
+  margin-right: 2%;
+}
+
+.exit:hover{
+  background-color: #DD403A;
+}
+
+body {
+  height:100vh;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+h3{
+  margin-left: 3%;
+}
+
+#menu{
+  background-color: #377771;
+  height:100vh;
+  padding-left: 5%;
+  padding-top: 3%;
+  color: white;
+}
+footer{
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  top: 85%;
+  bottom: 0;
+  left: 1%;
+  right: 0;
+}
+
+#logo{
+  width: 14%;
+  border-radius: 10px;
+}
+
+.header{
+  margin-right: 3%;
+}
+
+.item{
+  color: white !important;
+  border-bottom: white;
+  border-style: solid;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+#content{
+  margin: 5%;
+  margin-right: 50%;
+  padding-right: 5%;
+}
+
+.btn{
+  padding: 10px;
+  background-color: #377771;
+  color: white;
+}
+
+.btnElim{
+  background-color: #DD403A;
+}
+
+.center{
+  align-content: center !important;
+  text-align: center !important;
+}
+
+.espacio{
+  padding: 2% !important;
+}

@@ -287,7 +287,8 @@ export class EspecialistasComponent implements OnInit {
     } else if (res == "e") {
       alert("No hay comunicación con el servidor!!")
     } else if (res != null) {
-      alert()
+      res = JSON.parse(JSON.stringify(res))
+      alert("El usuario de especialista es: " + res.usuario)
     }
   }
 
@@ -390,6 +391,7 @@ export class EspecialistasComponent implements OnInit {
       res = JSON.parse(JSON.stringify(res))
       this.tipoIdentidadList = res
       console.log(this.tipoIdentidadList)
+
     }
   }
 

@@ -140,7 +140,7 @@
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <h3 class="header">Administracion de Sedes</h3>
+          <h3 class="header">Administracion de Clinicas</h3>
           |
           <!--      Opciones de la pantalla-->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -167,17 +167,21 @@
           <table class="table table-striped">
             <thead>
             <tr>
-              <th scope="col">Id Sede</th>
+              <th scope="col">Id Clinica</th>
+              <th scope="col">Clinica</th>
+              <th scope="col">ID Sede</th>
               <th scope="col">Sede</th>
-              <th scope="col" style="text-align: center">Detalle</th>
+              <th scope="col" style="text-align: center">Especialidad</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let sede of sedeList">
-              <th scope="row">{{sede.idSede}}</th>
-              <td>{{sede.sede}}</td>
+            <tr *ngFor="let clinica of clinicaListSede">
+              <th scope="row">{{clinica.idclinica}}</th>
+              <td>{{clinica.clinica}}</td>
+              <td>{{clinica.sedeIdSede}}</td>
+              <td>{{clinica.sede}}</td>
               <td class="center">
-                <button class="btn" (click)="direccionSede(content, sede)">
+                <button class="btn" (click)="clinicaEspecialidad(content, clinica)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
@@ -199,51 +203,23 @@
             <!--            Sede -->
             <div class="row">
               <div class="col-3 form-floating">
-                <input type="text" class="form-control" id="nombre" placeholder="Santiago"  [(ngModel)]="sede.sede" [ngModelOptions]="{standalone: true}" required>
+                <input type="text" class="form-control" id="nombre" placeholder="Santiago"  [(ngModel)]="clinica.clinica" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Clinica</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example" [(ngModel)]="clinica.sedeIdSede" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let sede of sedesList" value="{{sede.idSede}}"> &nbsp;
+                    &nbsp; &nbsp;{{sede.sede}}
+                  </option>
+                </select>
                 <label class="form-label">Sede</label>
               </div>
-              <div class="col-1"></div>
-              <div class="col-3 form-floating">
-                <select  class="form-select" aria-label="Default select example" (change)="consultaMuni()" [(ngModel)]="departamento" [ngModelOptions]="{standalone: true}" required>
-                  <option selected></option>
-                  <option  *ngFor="let departament of departamentoList" value="{{departament.idDepartamento}}">
-                    &nbsp; &nbsp;{{departament.departamento}}
-                  </option>
-                </select>
-                <label class="form-label">Departamento</label>
-              </div>
-              <div class="col-1"></div>
-              <div class="col-3 form-floating">
-                <select class="form-select" aria-label="Default select example" [(ngModel)]="direccion.municipioIdMunicipio" [ngModelOptions]="{standalone: true}" required>
-                  <option selected></option>
-                  <option  *ngFor="let municipio of municipioList" value="{{municipio.idmunicipio}}">
-                    &nbsp; &nbsp; {{municipio.municipio}}
-                  </option>
-                </select>
-                <label class="form-label">Municipio</label>
-              </div>
             </div>
-            <br><br>
-            <!--            Direccion-->
-            <div class="row">
-              <div class="col-2 form-floating">
-                <input type="text" class="form-control" id="calle" placeholder="2"  [(ngModel)]="direccion.calle" [ngModelOptions]="{standalone: true}" required>
-                <label class="form-label">Calle</label>
-              </div>
-              <div class="col-1"></div>
-              <div class="col-2 form-floating">
-                <input type="text" class="form-control" id="avenida" placeholder=" 1"  [(ngModel)]="direccion.avenida" [ngModelOptions]="{standalone: true}" required>
-                <label class="form-label">Avenida</label>
-              </div>
-              <div class="col-1"></div>
-              <div class="col-5 form-floating">
-                <input type="text" class="form-control" id="direccion" placeholder="2-53 Zona 1 Aldea Cascabel"  [(ngModel)]="direccion.otros" [ngModelOptions]="{standalone: true}" required>
-                <label class="form-label">Dirección</label>
-              </div>
-            </div>
-            <br><br>
+            <br>
             <!--            Boton Guardar-->
-            <div class="row justify-content-center">
+            <div class="row">
               <div class="col-2">
                 <button type="submit" class="btn">Guardar Sede</button>
               </div>
@@ -287,40 +263,53 @@
 <!--          TAMPLATE-->
 <ng-template #content let-modal>
   <div class="modal-header espacio">
-    <h4 class="modal-title" id="modal-basic-title">Detalles de Sede </h4>
+    <h4 class="modal-title" id="modal-basic-title">Especialidades de la Clinica: {{clinicaSelect.clinica}} </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body espacio">
-    <div class="mb-3">
-      <div class="row  justify-content-center">
-        <div class="col-4">
-          <h6>ID Sede:</h6>
-          <label >{{sedeSelec.idSede}}</label>
-          <br><br>
-          <h6>Sede:</h6>
-          <label >{{sedeSelec.sede}}</label>
-          <br><br>
-          <h6>Departamento:</h6>
-          <label >{{sedeDireccion[2].departamento}}</label>
-          <br><br>
-          <h6>Municipio:</h6>
-          <label >{{sedeDireccion[1].municipio}}</label>
+    <form>
+      <div class="mb-3">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">ID Especialidad</th>
+            <th scope="col">Especialidad</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let especialidadClinica of especialidadClinicaSelect">
+            <th scope="row">{{especialidadClinica.especialidadIdEspecialidad}}</th>
+            <td>{{especialidadClinica.especialidad}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <br>
+        <ng-template #btnClinicaEspecialidad>
+          <div class="col-2">
+            <button type="submit" (click)="creaClinicaEspecialidadClick()" class="btn">Agregar Especialidad</button>
           </div>
-          <div class="col-4">
-            <h6>Calle:</h6>
-            <label >{{sedeDireccion[0].calle}}</label>
-            <br><br>
-            <h6>Avenida:</h6>
-            <label >{{sedeDireccion[0].avenida}}</label>
-            <br><br>
-            <h6>Otros:</h6>
-            <label >{{sedeDireccion[0].otros}}</label>
-            <br><br>
-            <h6>Clinicas:</h6>
-            <label >{{sedeSelec.clinicas}}</label>
-          </div>
+        </ng-template>
+        <div *ngIf="creaClinicaEspecialidadBandera; else btnClinicaEspecialidad">
+          <h5>Agregar especialidad a {{clinicaSelect.clinica}}</h5>
+          <br>
+          <form class="login-form" (ngSubmit)="formularioCreacion2()" id="createForm2">
+            <div class="col-3 form-floating">
+              <select class="form-select" aria-label="Default select example"  [(ngModel)]="creaClinicaEspecialidad.especialidadIdEspecialidad" [ngModelOptions]="{standalone: true}" required>
+                <option selected></option>
+                <option *ngFor="let especialidad of especialidadclinicaSelectDispoible" value="{{especialidad.idEspecialidad}}"> &nbsp; &nbsp;
+                  {{especialidad.especialidad}}
+                </option>
+              </select>
+              <label class="form-label">Especialidad</label>
+            </div>
+            <br>
+            <div class="col-2">
+              <button type="submit" class="btn">Guardar Especialidad</button>
+            </div>
+          </form>
         </div>
       </div>
+    </form>
   </div>
   <div class="modal-footer espacio">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
