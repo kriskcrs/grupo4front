@@ -264,10 +264,10 @@
             <label >{{detalleFactura[0].idReservacion}}</label>
             <br><br>
             <h6>Fecha:</h6>
-            <label >{{detalleFactura[0].fechaRerservacion}}</label>
+            <label >{{detalleFactura[0].fechaRerservacion | date:'yyyy-MM-dd' }}</label>
             <br><br>
             <h6>Hora:</h6>
-            <label >{{detalleFactura[1].horario}}</label>
+            <label >{{detalleFactura[1].horario | date:'HH:mm' }}</label>
             <br><br>
             <h6>Descripción:</h6>
             <label >{{detalleFactura[0].datosReservacion}}</label>

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {HttpHeaders} from '@angular/common/http';
+import * as http from "http";
 
 @Component({
   selector: 'app-login',
