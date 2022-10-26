@@ -67,7 +67,7 @@ export class FacturasComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/Factura/consulta", httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/factura/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }
@@ -99,7 +99,7 @@ export class FacturasComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/TipoPago/consulta", httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/tipoPago/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }
@@ -172,7 +172,7 @@ export class FacturasComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/Factura/detalle/" + id, httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/factura/detalle/" + id, httpOptions).pipe(
       catchError(e => "e")
     )
   }

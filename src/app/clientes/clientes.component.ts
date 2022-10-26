@@ -384,7 +384,7 @@ export class ClientesComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/TipoIdentidad/consulta", httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/tipoIdentidad/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }

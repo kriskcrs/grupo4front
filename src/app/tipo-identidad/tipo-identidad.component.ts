@@ -74,7 +74,7 @@ export class TipoIdentidadComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/TipoIdentidad/consulta", httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/tipoIdentidad/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }
@@ -128,7 +128,7 @@ export class TipoIdentidadComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.post<any>("http://localhost:4043/TipoIdentidad/crea", tipoIdentidad, httpOptions).pipe(
+    return this.http.post<any>("http://localhost:4043/tipoIdentidad/crea", tipoIdentidad, httpOptions).pipe(
       catchError(e => "e")
     )
   }

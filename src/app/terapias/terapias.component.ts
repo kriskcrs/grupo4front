@@ -103,7 +103,7 @@ export class TerapiasComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/Especialidad/consulta", httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/especialidad/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }

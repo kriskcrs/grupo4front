@@ -62,7 +62,7 @@ export class RolesComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/Rol/consulta", httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/rol/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }
@@ -116,7 +116,7 @@ export class RolesComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.post<any>("http://localhost:4043/Rol/crea", rol, httpOptions).pipe(
+    return this.http.post<any>("http://localhost:4043/rol/crea", rol, httpOptions).pipe(
       catchError(e => "e")
     )
   }

@@ -75,7 +75,7 @@ export class EspecialidadesComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.get<any>("http://localhost:4043/Especialidad/consulta", httpOptions).pipe(
+    return this.http.get<any>("http://localhost:4043/especialidad/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
   }
@@ -126,7 +126,7 @@ export class EspecialidadesComponent implements OnInit {
         'Content-Type': 'application/json'
       })
     }
-    return this.http.post<any>("http://localhost:4043/Especialidad/crea", especialidad, httpOptions).pipe(
+    return this.http.post<any>("http://localhost:4043/especialidad/crea", especialidad, httpOptions).pipe(
       catchError(e => "e")
     )
   }
