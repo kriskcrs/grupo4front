@@ -15,6 +15,7 @@ export class ReservacionComponent implements OnInit {
   clinicaListSede:any = []
   sedesList: any = []
   clinica:any = {}
+  horario:any = {}
 
   // modal
   closeResult = '';
@@ -29,6 +30,7 @@ export class ReservacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.consultaS()
+    this.consultaH()
   }
 
   // menus de pantalla
@@ -63,7 +65,6 @@ export class ReservacionComponent implements OnInit {
 
 
   }
-
   consultaSedes() {
     console.log("Llamada al servicio")
     var httpOptions = {
@@ -90,7 +91,6 @@ export class ReservacionComponent implements OnInit {
       this.relacion()
     }
   }
-
   relacion(){
     this.clinicaListSede = []
     for (let clinica of this.clinicaList){
@@ -102,6 +102,79 @@ export class ReservacionComponent implements OnInit {
       this.clinicaListSede.push(clinica)
     }
   }
+
+
+  //consulta horario
+  consultaH(){
+    this.consultaHorario().subscribe(
+      (respuesta: any) => this.consultaHorarioResponse(respuesta)
+    )
+    this.consultaReservacion().subscribe(
+      (respuesta: any) => this.consultaReservacionResponse(respuesta)
+    )
+  }
+
+  consultaReservacion() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/reservacion/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+
+  consultaHorario() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/horario/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaHorarioResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.sedesList = res
+      console.log(this.sedesList)
+
+
+      this.relacion()
+    }
+  }
+  consultaReservacionResponse(res:any){
+    console.log("res = " +res )
+    if(res =="e" || res == null){
+    console.log("obtuve el dato")
+    }
+
+  }
+
+
+
+  relacionH(){
+    this.clinicaListSede = []
+    for (let clinica of this.clinicaList){
+      for(let sede of this.sedesList){
+        if (clinica.sedeIdSede == sede.idSede){
+          clinica.sede = sede.sede
+        }
+      }
+      this.clinicaListSede.push(clinica)
+    }
+  }
+
+
 
   // consultaDireccion
   consultaClinica() {
