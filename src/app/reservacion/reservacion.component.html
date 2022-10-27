@@ -191,15 +191,39 @@
           <h2>Creación de Sede</h2>
           <br>
           <form class="login-form" (ngSubmit)="formularioCreacion()" id="createForm">
-            <!--            Sede -->
             <div class="row">
-              <div class="col-3 form-floating">
-                <input type="text" class="form-control" id="nombre" placeholder="Santiago"  [(ngModel)]="clinica.clinica" [ngModelOptions]="{standalone: true}" required>
-                <label class="form-label">Clinica</label>
+              <label>Selecciona la fecha para <br> tu reservación</label>
+              <!--                Fecha-->
+              <div class="col-3 ">
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="yyyy-mm-dd"
+                    name="dp"
+                    [(ngModel)]="model"
+                    ngbDatepicker
+                    #d="ngbDatepicker"
+                  />
+                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                </div>
               </div>
               <div class="col-1"></div>
+
+              <!--              horario-->
               <div class="col-3 form-floating">
-                <select  class="form-select" aria-label="Default select example" [(ngModel)]="clinica.sedeIdSede" [ngModelOptions]="{standalone: true}" required>
+                <select  class="form-select" aria-label="Default select example" [(ngModel)]="reservacion.horarioIdHorario" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let horario of horarioList" value="{{horario.idHorario}}"> &nbsp;
+                    &nbsp; &nbsp;{{horario.horario | date:'hh:mm:ss'}}
+                  </option>
+                </select>
+                <label class="form-label">Horario</label>
+              </div>
+              <div class="col-1"></div>
+
+              <!--              sede-->
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example"  (change)="buscaClinicas()" [(ngModel)]="sede" [ngModelOptions]="{standalone: true}" required>
                   <option selected></option>
                   <option  *ngFor="let sede of sedesList" value="{{sede.idSede}}"> &nbsp;
                     &nbsp; &nbsp;{{sede.sede}}
@@ -207,9 +231,38 @@
                 </select>
                 <label class="form-label">Sede</label>
               </div>
+              <div class="col-1"></div>
             </div>
-            <br>
+            <br><br>
+            <div class="row">
+              <!--              clinica-->
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example" (change)="buscaClinicaEspecialidad()" [(ngModel)]="clinica" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let clinica of clinicaList" value="{{clinica.idclinica}}"> &nbsp;
+                    &nbsp; &nbsp;{{clinica.clinica}}
+                  </option>
+                </select>
+                <label class="form-label">Clinica</label>
+              </div>
+              <div class="col-1"></div>
+
+              <!--              clinica especialidad-->
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example" (change)="buscaEspecialista()" [(ngModel)]="reservacion.clinicaEspecialidadIdClinicaEspecialidad" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let clinicaEspecialidad of clinicaEspecialidadRelacionadaList" value="{{clinicaEspecialidad.clinicaEspecialidad}}"> &nbsp;
+                    &nbsp; &nbsp;{{clinicaEspecialidad.especialidad}}
+                  </option>
+                </select>
+                <label class="form-label">Especialidad</label>
+              </div>
+              <div class="col-1"></div>
+            </div>
+
+
             <!--            Boton Guardar-->
+            <br>
             <div class="row">
               <div class="col-2">
                 <button type="submit" class="btn">Guardar Sede</button>

@@ -88,7 +88,7 @@ export class SedesComponent implements OnInit {
 
   direccionSede(content:any, sede:any){
     this.sedeSelec = sede
-    this.consultaDireccion(sede.idSede).subscribe(
+    this.consultaDireccion(sede.direccionIdDireccion).subscribe(
       (respuesta: any) => this.consultaDireccionResponse(respuesta)
     )
 
