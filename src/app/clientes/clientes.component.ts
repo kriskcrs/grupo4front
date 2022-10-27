@@ -211,7 +211,8 @@ export class ClientesComponent implements OnInit {
     )
   }
   creacionDireccionResponse(res: any) {
-    console.log(res + " aqui va el res ")
+    console.log(res + " aqui va el res -> ")
+
 
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
@@ -244,7 +245,12 @@ export class ClientesComponent implements OnInit {
   }
   creacionPersonaResponse(res: any) {
     console.log(res + " aqui va el res ")
-    if (res.length == 0) {
+    if(res.codError == 1){
+      console.log("Error ya existe")
+      alert("¡El cliente ya existe con el numero de identidad o nit!")
+      location.href = "/clientes"
+    }
+    else if (res.length == 0) {
       // this.usuarioInvalido = true;
       console.log("paso por null")
     } else if (res == "e") {
@@ -253,12 +259,15 @@ export class ClientesComponent implements OnInit {
       //ok
       console.log("RESPUESTA DE PERSONA" + JSON.stringify(res))
       this.user.usuario = res.usuario
+      console.log("Usuario -> "+ res.usuario)
 
-      console.log(this.user)
-      // seteo de password
-      this.creacionPassword(this.user).subscribe(
-        (respuesta: any) => this.creacionPasswordResponse(respuesta)
-      )
+        console.log(this.user)
+        // seteo de password
+        this.creacionPassword(this.user).subscribe(
+          (respuesta: any) => this.creacionPasswordResponse(respuesta)
+        )
+
+
     }
   }
 

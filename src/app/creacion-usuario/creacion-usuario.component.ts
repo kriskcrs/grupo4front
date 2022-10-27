@@ -191,21 +191,27 @@ export class CreacionUsuarioComponent implements OnInit {
   }
   creacionPersonaResponse(res: any) {
     console.log(res + " aqui va el res ")
-    if (res.length == 0) {
+    if(res.codError == 1){
+      console.log("Error ya existe")
+      alert("¡El cliente ya existe con el numero de identidad o nit!")
+      this.salir()
+    }
+    else if (res.length == 0) {
       // this.usuarioInvalido = true;
       console.log("paso por null")
     } else if (res == "e") {
       alert("No hay comunicación con el servidor!!")
+     this.salir()
     } else if (res != null) {
       //ok
       console.log("RESPUESTA DE PERSONA" + JSON.stringify(res))
       this.user.usuario = res.usuario
 
-      console.log(this.user)
-      // seteo de password
-      this.creacionPassword(this.user).subscribe(
-        (respuesta: any) => this.creacionPasswordResponse(respuesta)
-      )
+        console.log(this.user)
+        // seteo de password
+        this.creacionPassword(this.user).subscribe(
+          (respuesta: any) => this.creacionPasswordResponse(respuesta)
+        )
     }
   }
 
