@@ -261,7 +261,6 @@
             <br><br>
             <!--            TERAPIAS-->
             <div class="row">
-              <form>
                 <div class="mb-3">
                   <table class="table table-striped">
                     <thead>
@@ -282,7 +281,7 @@
                   <br>
                   <ng-template #btnAgregarTerapia>
                     <div class="col-2">
-                      <button type="submit" (click)="agregaTerapiaBtn()" class="btn" [disabled]="agregarTerapiaDeshabilitado">Agregar Terapia</button>
+                      <button (click)="agregaTerapiaBtn()" class="btn" [disabled]="agregarTerapiaDeshabilitado">Agregar Terapia</button>
                     </div>
                   </ng-template>
                   <div *ngIf="agregaTerapiaBandera; else btnAgregarTerapia">
@@ -299,11 +298,10 @@
                       </div>
                       <br>
                       <div class="col-2">
-                        <button type="submit" (click)="agregaTerapia()" class="btn">Agregar Terapia</button>
+                        <button (click)="agregaTerapia()" class="btn">Agregar Terapia</button>
                       </div>
                   </div>
                 </div>
-              </form>
             </div>
             <br><br>
             <div class="row">
@@ -353,13 +351,11 @@
             </div>
 
 
-
-
             <!--            Boton Guardar-->
             <br>
             <div class="row">
               <div class="col-2">
-                <button type="submit" class="btn">Guardar Reservacion</button>
+                <button type="submit" (click)="formularioCreacion()" class="btn">Guardar Reservación</button>
               </div>
             </div>
           </form>

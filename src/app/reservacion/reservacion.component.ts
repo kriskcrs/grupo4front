@@ -72,9 +72,9 @@ export class ReservacionComponent implements OnInit {
         this.agregaTerapiaBandera = false;
         this.terapiaListAgregar = []
         this.reservacion = {}
-        this.departamento = ""
-        this.sede = ""
-        this.municipio = ""
+        this.departamento = 0
+        this.sede = 0
+        this.municipio = 0
         this.catalogos()
         break;
       case 3:
