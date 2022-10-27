@@ -37,8 +37,6 @@ export class LoginComponent implements OnInit {
     let formularioValido: any = document.getElementById("loginForm");
     if (formularioValido.reportValidity()) {
 
-      console.log(this.user)
-
       //llamada al servicio de login
       this.servicioLogin().subscribe(
         (respuesta: any) => this.login(respuesta)
@@ -46,6 +44,9 @@ export class LoginComponent implements OnInit {
     }
   }
   servicioLogin() {
+    this.user.usuario = this.user.usuario.toUpperCase()
+    console.log(this.user)
+
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
