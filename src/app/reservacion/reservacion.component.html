@@ -192,7 +192,7 @@
           <br>
           <form class="login-form" (ngSubmit)="formularioCreacion()" id="createForm">
             <div class="row">
-              <label>Selecciona la fecha para <br> tu reservación</label>
+              <label>Fecha de reservación</label>
               <!--                Fecha-->
               <div class="col-3 ">
                 <div class="input-group">
@@ -200,10 +200,9 @@
                     class="form-control"
                     placeholder="yyyy-mm-dd"
                     name="dp"
-                    [(ngModel)]="model"
+                    [(ngModel)]="fecha"
                     ngbDatepicker
-                    #d="ngbDatepicker"
-                  />
+                    #d="ngbDatepicker"/>
                   <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
                 </div>
               </div>
@@ -221,17 +220,90 @@
               </div>
               <div class="col-1"></div>
 
+              <!--              departamento-->
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example"  (change)="buscaMuni()" [(ngModel)]="departamento" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let departamento of departamentoList" value="{{departamento.idDepartamento}}"> &nbsp;
+                    &nbsp; &nbsp;{{departamento.departamento}}
+                  </option>
+                </select>
+                <label class="form-label">Departamento</label>
+              </div>
+              <div class="col-1"></div>
+            </div>
+            <br><br>
+            <div class="row">
+              <!--              municipio-->
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example"  (change)="buscaSede()" [(ngModel)]="municipio" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let municipio of municipioList" value="{{municipio.idmunicipio}}"> &nbsp;
+                    &nbsp; &nbsp;{{municipio.municipio}}
+                  </option>
+                </select>
+                <label class="form-label">Municipio</label>
+              </div>
+              <div class="col-1"></div>
+
               <!--              sede-->
               <div class="col-3 form-floating">
-                <select  class="form-select" aria-label="Default select example"  (change)="buscaClinicas()" [(ngModel)]="sede" [ngModelOptions]="{standalone: true}" required>
+                <select  class="form-select" aria-label="Default select example"   (change)="habilitaTerapia()" [(ngModel)]="sede" [ngModelOptions]="{standalone: true}" required>
                   <option selected></option>
                   <option  *ngFor="let sede of sedesList" value="{{sede.idSede}}"> &nbsp;
                     &nbsp; &nbsp;{{sede.sede}}
                   </option>
                 </select>
-                <label class="form-label">Reservacion</label>
+                <label class="form-label">Sede</label>
               </div>
               <div class="col-1"></div>
+            </div>
+            <br><br>
+            <!--            TERAPIAS-->
+            <div class="row">
+              <form>
+                <div class="mb-3">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th scope="col">Terapia</th>
+                      <th scope="col">Descripcion</th>
+                      <th scope="col">Precio</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let terapia of terapiaListAgregar">
+                      <th scope="row">{{terapia.terapia}}</th>
+                      <td>{{terapia.descripcion}}</td>
+                      <td>{{terapia.precio}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <br>
+                  <ng-template #btnAgregarTerapia>
+                    <div class="col-2">
+                      <button type="submit" (click)="agregaTerapiaBtn()" class="btn" [disabled]="agregarTerapiaDeshabilitado">Agregar Terapia</button>
+                    </div>
+                  </ng-template>
+                  <div *ngIf="agregaTerapiaBandera; else btnAgregarTerapia">
+                    <h5>Agregar Terapia a Reservacio</h5>
+                    <br>
+                      <div class="col-3 form-floating">
+                        <select class="form-select" aria-label="Default select example"  [(ngModel)]="terapia.idTerapia" [ngModelOptions]="{standalone: true}" required>
+                          <option selected></option>
+                          <option *ngFor="let terapia of terapiaList" value="{{terapia.idTerapia}}"> &nbsp; &nbsp;
+                            {{terapia.terapia}}
+                          </option>
+                        </select>
+                        <label class="form-label">Terapia</label>
+                      </div>
+                      <br>
+                      <div class="col-2">
+                        <button type="submit" (click)="agregaTerapia()" class="btn">Agregar Terapia</button>
+                      </div>
+                  </div>
+                </div>
+              </form>
             </div>
             <br><br>
             <div class="row">
@@ -251,21 +323,43 @@
               <div class="col-3 form-floating">
                 <select  class="form-select" aria-label="Default select example" (change)="buscaEspecialista()" [(ngModel)]="reservacion.clinicaEspecialidadIdClinicaEspecialidad" [ngModelOptions]="{standalone: true}" required>
                   <option selected></option>
-                  <option  *ngFor="let clinicaEspecialidad of clinicaEspecialidadRelacionadaList" value="{{clinicaEspecialidad.clinicaEspecialidad}}"> &nbsp;
+                  <option  *ngFor="let clinicaEspecialidad of clinicaEspecialidadRelacionadaList" value="{{clinicaEspecialidad.idClinicaEspecialidad}}"> &nbsp;
                     &nbsp; &nbsp;{{clinicaEspecialidad.especialidad}}
                   </option>
                 </select>
                 <label class="form-label">Especialidad</label>
               </div>
               <div class="col-1"></div>
+
+              <!--              especialista-->
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example"  [(ngModel)]="reservacion.especialidadEspecialistaIdEspecialidadEspecialista" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let especialista of especialistaList" value="{{especialista.especialistaList[0].especialidadEspecialistaList[0].idespecialidadEspecialista}}"> &nbsp;
+                    &nbsp; &nbsp;{{especialista.nombre}} {{especialista.apellido}}
+                  </option>
+                </select>
+                <label class="form-label">Especialista</label>
+              </div>
+              <div class="col-1"></div>
             </div>
+            <br><br>
+            <div class="row">
+              <!--              Datos adicionales-->
+              <div class="col-7 form-floating">
+                <textarea class="form-control" id="descricion" rows="3" placeholder="Descripción" [(ngModel)]="reservacion.datosReservacion" [ngModelOptions]="{standalone: true}" required></textarea>
+                <label class="form-label">Datos Adicionales</label>
+              </div>
+            </div>
+
+
 
 
             <!--            Boton Guardar-->
             <br>
             <div class="row">
               <div class="col-2">
-                <button type="submit" class="btn">Guardar Sede</button>
+                <button type="submit" class="btn">Guardar Reservacion</button>
               </div>
             </div>
           </form>
