@@ -5,6 +5,7 @@ import {Md5} from 'ts-md5';
 import * as XLSX from 'xlsx';
 // modal
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {setOffsetToUTC} from "ngx-bootstrap/chronos/units/offset";
 
 @Component({
   selector: 'app-clientes',
@@ -31,6 +32,7 @@ export class ClientesComponent implements OnInit {
   crea: boolean = false
   elim: boolean= false
   busca: boolean = false
+  actualiza: boolean = false
 
   // modal
   closeResult = '';
@@ -47,6 +49,22 @@ export class ClientesComponent implements OnInit {
     this.consultaCliente().subscribe(
       (respuesta: any) => this.consultaClienteResponse(respuesta)
     )
+
+    //genera datos
+    this.usuarioPermiso()
+
+  }
+
+
+  usuarioPermiso(){
+
+    let rolList = localStorage.getItem("rolList")
+    let menuList = localStorage.getItem("menuList")
+    let menuRolList = localStorage.getItem("menuRolList")
+
+    console.log("Viene rol -> "+rolList)
+
+
   }
 
   // menus de pantalla

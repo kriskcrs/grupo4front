@@ -16,6 +16,9 @@ export class LoginComponent implements OnInit {
   pass: string = ""
   usuarioInvalido: boolean = false;
   msjUsuarioInvalido: String = "El usuario o contraseña son incorrectas."
+  menuList: any = {}
+  rolList: any = {}
+  menuRolList: any = {}
 
 
   constructor(private http: HttpClient) {
@@ -23,6 +26,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     localStorage.clear()
+    this.ConsultaCatalogo()
+
   }
 
   formulariologin() {
@@ -40,8 +45,6 @@ export class LoginComponent implements OnInit {
       )
     }
   }
-
-
   servicioLogin() {
     var httpOptions = {
       headers: new HttpHeaders({
@@ -52,7 +55,6 @@ export class LoginComponent implements OnInit {
       catchError(e => "e")
     )
   }
-
   login(res: any) {
 
     if (res != null) {
@@ -65,6 +67,10 @@ export class LoginComponent implements OnInit {
         // Usuario OK
         console.log(res.codError)
         localStorage.setItem("user", JSON.stringify(res));
+        localStorage.setItem("menuList",JSON.stringify(this.menuList))
+        console.log("rolList --->  "+JSON.stringify(this.rolList))
+        localStorage.setItem("rolList",JSON.stringify(this.rolList))
+        localStorage.setItem("menuRol",JSON.stringify(this.menuRolList))
         location.href = "/clientes";
       }else{
         // Fallo por -> 'estado'
@@ -88,7 +94,6 @@ export class LoginComponent implements OnInit {
     this.msjUsuarioInvalido = "El usuario o contraseña son incorrectas."
   }
 
-
   crearUsuario() {
     location.href = "/creacion";
   }
@@ -96,4 +101,94 @@ export class LoginComponent implements OnInit {
   welcome() {
     location.href = "/"
   }
+
+  ConsultaCatalogo(){
+    this.ConsultaMenu().subscribe(
+      (respuesta: any) => this.ConsultaMenuResponse(respuesta)
+    )
+    this.ConsultaRol().subscribe(
+      (respuesta:any) => this.ConsultaRolResponse(respuesta)
+    )
+    this.ConsultaMenuRol().subscribe(
+      (respuesta:any) => this.ConsultaMenuRolResponse(respuesta)
+    )
+  }
+
+// Menu
+  ConsultaMenu(){
+    console.log("llama al servicio -> Menu -> " )
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/menu/consulta",  httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  ConsultaMenuResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.menuList = res
+      console.log(this.menuList)
+    }
+  }
+
+// Rol
+  ConsultaRol(){
+    console.log("llama al servicio -> Rol -> " )
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/rol/consulta",  httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  ConsultaRolResponse(res: any) {
+   console.log("paso por la peticion de rol consulta -> " +res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.rolList = res
+      console.log(this.rolList)
+    }
+  }
+
+// Menu_rol
+  ConsultaMenuRol(){
+    console.log("llama al servicio -> MenuRol -> " )
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/menu/consultaRol",  httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  ConsultaMenuRolResponse(res: any) {
+    console.log("paso por la peticion de Menu_Rol consulta -> " +res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.menuRolList = res
+      console.log(this.menuRolList)
+    }
+  }
+
+
+
 }
