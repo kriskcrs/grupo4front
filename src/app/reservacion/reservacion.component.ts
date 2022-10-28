@@ -540,7 +540,7 @@ export class ReservacionComponent implements OnInit {
     console.clear()
     console.log(this.fecha)
 
-    this.reservacion.fechaRerservacion = this.fecha?.year + "-" + this.fecha?.month + "-" + this.fecha?.day
+    this.reservacion.fechaReservacion = this.fecha?.year + "-" + this.fecha?.month + "-" + this.fecha?.day
     this.reservacion.clienteIdCliente = this.usuario.idCliente
     this.reservacion.estadoIdEstado = 1
     console.log(this.reservacion)

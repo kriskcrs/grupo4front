@@ -177,7 +177,7 @@
             <tbody>
             <tr *ngFor="let reservacion of reservacionListCompleto">
               <th scope="row">{{reservacion.idReservacion}}</th>
-              <td>{{reservacion.fechaRerservacion | date:'yyyy-MM-dd'}}</td>
+              <td>{{reservacion.fechaReservacion | date:'yyyy-MM-dd'}}</td>
               <td>{{reservacion.horario | date:'hh:mm'}}</td>
               <td>{{reservacion.nombreEstado}}</td>
               <td>{{reservacion.datosReservacion}}</td>
