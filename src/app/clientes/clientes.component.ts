@@ -27,6 +27,13 @@ export class ClientesComponent implements OnInit {
   msjEliminaCliente: String = ""
   departamentoList:any = []
   municipioList:any = []
+
+  rolList: any=[]
+  usuario: any=[]
+  menuRolList: any=[]
+  menuList: any =[]
+
+
   //banderas
   consul: boolean = true
   crea: boolean = false
@@ -58,12 +65,17 @@ export class ClientesComponent implements OnInit {
 
   usuarioPermiso(){
 
-    let rolList = localStorage.getItem("rolList")
-    let menuList = localStorage.getItem("menuList")
-    let menuRolList = localStorage.getItem("menuRolList")
+    this.rolList = JSON.parse(JSON.stringify(localStorage.getItem("rolList")))
+    this.menuList = JSON.parse(JSON.stringify(localStorage.getItem("menuList")))
+    this. menuRolList = JSON.parse(JSON.stringify(localStorage.getItem("menuRolList")))
 
-    console.log("Viene rol -> "+rolList)
+    console.log("Viene rol -> "+ this.rolList)
 
+    for(let x of this.rolList ){
+      if(this.usuario.rol == this.rolList){
+        console.log("si esta " + this.usuario.rol)
+      }
+    }
 
   }
 
@@ -107,7 +119,6 @@ export class ClientesComponent implements OnInit {
 
   //Respuesta para la consulta de los clientes
   consultaClienteResponse(res: any) {
-    console.log("res = " + res)
 
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
