@@ -16,10 +16,14 @@ export class LoginComponent implements OnInit {
   pass: string = ""
   usuarioInvalido: boolean = false;
   msjUsuarioInvalido: String = "El usuario o contraseña son incorrectas."
-  menuList: any = {}
-  rolList: any = {}
-  menuRolList: any = {}
 
+
+  rolList: any=[]
+  usuario: any=[]
+  menuRolList: any=[]
+  menuList: any =[]
+  permisos: any = {}
+  menuRolHistorial: any = []
 
   constructor(private http: HttpClient) {
   }
@@ -62,16 +66,13 @@ export class LoginComponent implements OnInit {
       //recibido
       console.log("OK")
       res = JSON.parse(JSON.stringify(res))
-      console.log(res)
 
       if(res.codError == 0){
         // Usuario OK
         console.log(res.codError)
-        localStorage.setItem("user", JSON.stringify(res));
-        localStorage.setItem("menuList",JSON.stringify(this.menuList))
-        console.log("rolList --->  "+JSON.stringify(this.rolList))
-        localStorage.setItem("rolList",JSON.stringify(this.rolList))
-        localStorage.setItem("menuRol",JSON.stringify(this.menuRolList))
+        this.user = res
+        localStorage.setItem("user", JSON.stringify(this.user));
+        this.usuarioPermiso()
         location.href = "/clientes";
       }else{
         // Fallo por -> 'estado'
@@ -117,7 +118,6 @@ export class LoginComponent implements OnInit {
 
 // Menu
   ConsultaMenu(){
-    console.log("llama al servicio -> Menu -> " )
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -128,15 +128,13 @@ export class LoginComponent implements OnInit {
     )
   }
   ConsultaMenuResponse(res: any) {
-    console.log("res = " + res)
-
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
     } else if (res != null) {
       // ok
       res = JSON.parse(JSON.stringify(res))
       this.menuList = res
-      console.log(this.menuList)
+
     }
   }
 
@@ -153,7 +151,6 @@ export class LoginComponent implements OnInit {
     )
   }
   ConsultaRolResponse(res: any) {
-   console.log("paso por la peticion de rol consulta -> " +res)
 
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
@@ -161,7 +158,7 @@ export class LoginComponent implements OnInit {
       // ok
       res = JSON.parse(JSON.stringify(res))
       this.rolList = res
-      console.log(this.rolList)
+
     }
   }
 
@@ -178,7 +175,6 @@ export class LoginComponent implements OnInit {
     )
   }
   ConsultaMenuRolResponse(res: any) {
-    console.log("paso por la peticion de Menu_Rol consulta -> " +res)
 
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
@@ -186,9 +182,34 @@ export class LoginComponent implements OnInit {
       // ok
       res = JSON.parse(JSON.stringify(res))
       this.menuRolList = res
-      console.log(this.menuRolList)
+
     }
   }
+
+  usuarioPermiso(){
+    this.usuario = localStorage.getItem("user")
+    this.usuario = JSON.parse(this.usuario)
+
+    for(let x of this.rolList ){
+      if(x.idRol == this.usuario.rol){
+        this.permisos.crear  = x.crear
+        this.permisos.borrar = x.borrar
+        this.permisos.actualizar = x.actualizar
+        this.permisos.consultar = x.consultar
+      }
+    }
+
+    for(let x of this.menuRolList){
+     if(x.rolIdRol == this.usuario.rol){
+        this.menuRolHistorial.push( x.menuIdMenu)
+      }
+    }
+
+    localStorage.setItem("menus",JSON.stringify(this.menuRolHistorial))
+    localStorage.setItem("permisos",JSON.stringify(this.permisos))
+
+  }
+
 
 
 

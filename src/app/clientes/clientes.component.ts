@@ -28,10 +28,6 @@ export class ClientesComponent implements OnInit {
   departamentoList:any = []
   municipioList:any = []
 
-  rolList: any=[]
-  usuario: any=[]
-  menuRolList: any=[]
-  menuList: any =[]
 
 
   //banderas
@@ -57,27 +53,11 @@ export class ClientesComponent implements OnInit {
       (respuesta: any) => this.consultaClienteResponse(respuesta)
     )
 
-    //genera datos
-    this.usuarioPermiso()
+
 
   }
 
 
-  usuarioPermiso(){
-
-    this.rolList = JSON.parse(JSON.stringify(localStorage.getItem("rolList")))
-    this.menuList = JSON.parse(JSON.stringify(localStorage.getItem("menuList")))
-    this. menuRolList = JSON.parse(JSON.stringify(localStorage.getItem("menuRolList")))
-
-    console.log("Viene rol -> "+ this.rolList)
-
-    for(let x of this.rolList ){
-      if(this.usuario.rol == this.rolList){
-        console.log("si esta " + this.usuario.rol)
-      }
-    }
-
-  }
 
   // menus de pantalla
   menu(x:any){
@@ -125,7 +105,6 @@ export class ClientesComponent implements OnInit {
     } else if (res != null) {
       // ok
       res = JSON.parse(JSON.stringify(res))
-      console.log(res)
       this.personasList = res
     }
   }
