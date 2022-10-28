@@ -19,6 +19,8 @@ export class SedesComponent implements OnInit {
   departamento:String = ""
   departamentoList:any = []
   municipioList:any = []
+  idSede: any = {}
+  idSedeSelect: any = {}
 
   // modal
   closeResult = '';
@@ -26,8 +28,9 @@ export class SedesComponent implements OnInit {
   // banderas
   consul: boolean = true
   crea: boolean = false
-  elim: boolean= false
+  mod: boolean= false
   busca: boolean = false
+  encontrado:boolean= false
 
   constructor(private http: HttpClient, private modalService: NgbModal) {}
 
@@ -39,7 +42,7 @@ export class SedesComponent implements OnInit {
   menu(x:any){
     this.consul = false;
     this.crea =  false
-    this.elim = false
+    this.mod = false
 
     switch (x){
       case 1: this.consul = true; this.consultaS(); break;
@@ -50,7 +53,11 @@ export class SedesComponent implements OnInit {
           (respuesta: any) => this.consultaDepartamentoResponse(respuesta)
         )
         break;
-      case 3: this.elim = true; break;
+      case 3: this.mod = true;//Departamentos
+        this.consultaDepartamento().subscribe(
+          (respuesta: any) => this.consultaDepartamentoResponse(respuesta)
+        )
+        break;
     }
   }
 
@@ -218,10 +225,21 @@ export class SedesComponent implements OnInit {
       )
     }
   }
+  // actualiza sede
+  formularioModificacion(){
+
+    let formularioValido: any = document.getElementById("ModifForm");
+    if (formularioValido.reportValidity()) {
+      this.actualiaSede().subscribe(
+        (respuesta: any) => this.sedeActualizaResponse(respuesta)
+      )
+    }
+  }
+
+
 
   // Crear Direccion
   creacionDireccion(direc: any) {
-
     console.log("Creacion de direccion")
     console.log(direc)
     var httpOptions = {
@@ -233,6 +251,29 @@ export class SedesComponent implements OnInit {
       catchError(e => "e")
     )
   }
+
+
+
+
+
+
+  sedeSelect(){
+
+    if(this.idSede !=""){
+      this.idSedeSelect ={}
+      for( let x of this.sedeList){
+        if( this.idSede == x.idTerapia ){
+          this.encontrado = false
+          this.idSedeSelect = x
+        }
+      }
+    }else {
+      this.encontrado = true
+      this.idSedeSelect = {}
+    }
+
+  }
+
   creacionDireccionResponse(res: any) {
     console.log(res + " aqui va el res ")
 
@@ -257,6 +298,7 @@ export class SedesComponent implements OnInit {
 
     console.log("Creacion de sede")
     console.log(sede)
+
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -276,6 +318,34 @@ export class SedesComponent implements OnInit {
 
       res = JSON.parse(JSON.stringify(res))
       alert("Se creo la sede: " + res.sede)
+    }
+  }
+
+
+  actualiaSede(){
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post<any>("http://localhost:4043/sede/actualiza",this.sede, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+
+
+
+  sedeActualizaResponse(res:any){
+    console.log(res + " aqui va el res ")
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      alert("Se Actualiza la Sede: " + res.sede)
+      this.idSede = {}
+      location.href = "/sedes"
     }
   }
 

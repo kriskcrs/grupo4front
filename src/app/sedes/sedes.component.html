@@ -253,57 +253,31 @@
       </div>
 
       <!--Modificacion-->
-      <div *ngIf="elim">
+      <div *ngIf="mod">
         <div class="container create">
           <h2>Modificacion de Sede</h2>
           <br>
-          <form class="login-form" (ngSubmit)="formularioCreacion()" id="createForm">
-            <!--            Sede -->
+          <form class="login-form" (ngSubmit)="formularioModificacion()" id="ModifForm">
+            <!--     Sede -->
             <div class="row">
               <div class="col-3 form-floating">
-                <input type="text" class="form-control" id="nombre" placeholder="Santiago"  [(ngModel)]="sede.sede" [ngModelOptions]="{standalone: true}" required>
+                <select class="form-select" aria-label="Default select example" (change)="sedeSelect()" [(ngModel)]="sede.idSede" [ngModelOptions]="{standalone: true}" >
+                  <option selected></option>
+                  <option *ngFor="let sede of sedeList " value="{{sede.idSede}}">
+                    &nbsp;&nbsp;&nbsp;{{sede.sede}}</option>
+                </select>
                 <label class="form-label">Sede</label>
               </div>
-              <div class="col-1"></div>
-              <div class="col-3 form-floating">
-                <select  class="form-select" aria-label="Default select example" (change)="consultaMuni()" [(ngModel)]="departamento" [ngModelOptions]="{standalone: true}" required>
-                  <option selected></option>
-                  <option  *ngFor="let departament of departamentoList" value="{{departament.idDepartamento}}">
-                    &nbsp; &nbsp;{{departament.departamento}}
-                  </option>
-                </select>
-                <label class="form-label">Departamento</label>
-              </div>
-              <div class="col-1"></div>
-              <div class="col-3 form-floating">
-                <select class="form-select" aria-label="Default select example" [(ngModel)]="direccion.municipioIdMunicipio" [ngModelOptions]="{standalone: true}" required>
-                  <option selected></option>
-                  <option  *ngFor="let municipio of municipioList" value="{{municipio.idmunicipio}}">
-                    &nbsp; &nbsp; {{municipio.municipio}}
-                  </option>
-                </select>
-                <label class="form-label">Municipio</label>
-              </div>
+              <br>
             </div>
             <br><br>
-            <!--            Direccion-->
-            <div class="row">
-              <div class="col-2 form-floating">
-                <input type="text" class="form-control" id="calle" placeholder="2"  [(ngModel)]="direccion.calle" [ngModelOptions]="{standalone: true}" required>
-                <label class="form-label">Calle</label>
-              </div>
-              <div class="col-1"></div>
-              <div class="col-2 form-floating">
-                <input type="text" class="form-control" id="avenida" placeholder=" 1"  [(ngModel)]="direccion.avenida" [ngModelOptions]="{standalone: true}" required>
-                <label class="form-label">Avenida</label>
-              </div>
-              <div class="col-1"></div>
-              <div class="col-5 form-floating">
-                <input type="text" class="form-control" id="direccion" placeholder="2-53 Zona 1 Aldea Cascabel"  [(ngModel)]="direccion.otros" [ngModelOptions]="{standalone: true}" required>
-                <label class="form-label">Dirección</label>
-              </div>
+            <div class="col-12" >
+              <div class="col-3 form-floating">
+              <input type="text" class="form-control" id="nombreMod" placeholder="Nombre Sede"  [(ngModel)]="sede.sede" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado">
+                <label class="form-label">Nombre Sede</label></div>
             </div>
-            <br><br>
+            <br>
+            <br>
             <!--            Boton Guardar-->
             <div class="row justify-content-center">
               <div class="col-2">
@@ -318,7 +292,7 @@
   </div>
 
 
-<!--          TAMPLATE-->
+<!--TEMPLATE-->
 <ng-template #content let-modal>
   <div class="modal-header espacio">
     <h4 class="modal-title" id="modal-basic-title">Detalles de Sede </h4>
