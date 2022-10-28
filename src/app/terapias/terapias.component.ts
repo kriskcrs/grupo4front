@@ -18,11 +18,14 @@ export class TerapiasComponent implements OnInit {
   terapiaList: any = []
   terapiaListEspecialidad: any = []
   especialidadList: any = []
+  terapiaListSelect: any = {}
+  idTerapia: String = ""
 
   //banderas
   consul: boolean = true
   crea: boolean = false
-  elim: boolean = false
+  mod: boolean = false
+  encontrado: boolean = true
 
   // modal
   closeResult = '';
@@ -43,13 +46,15 @@ export class TerapiasComponent implements OnInit {
     this.consultaEspecialidad().subscribe(
       (respuesta: any) => this.consultaEspecialidadResponse(respuesta)
     )
+
   }
 
   // menus de pantalla
   menu(x: any) {
     this.consul = false;
     this.crea = false
-    this.elim = false
+    this.mod = false
+
 
     switch (x) {
       case 1:
@@ -63,9 +68,28 @@ export class TerapiasComponent implements OnInit {
         )
         break;
       case 3:
-        this.elim = true;
+        this.mod = true;
+        this.encontrado = true
         break;
     }
+  }
+
+
+  terapiaSelect(){
+
+    if(this.idTerapia !=""){
+      this.terapiaListSelect ={}
+      for( let x of this.terapiaList){
+        if( this.idTerapia == x.idTerapia ){
+          this.encontrado = false
+          this.terapiaListSelect = x
+          }
+       }
+    }else {
+      this.encontrado = true
+      this.terapiaListSelect = {}
+    }
+
   }
 
   // consulta Terapia
@@ -83,7 +107,6 @@ export class TerapiasComponent implements OnInit {
 
   //Respuesta para la consulta los roles
   consultaTerapiaResponse(res: any) {
-    console.log("res = " + res)
 
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
@@ -91,7 +114,7 @@ export class TerapiasComponent implements OnInit {
       // ok
       res = JSON.parse(JSON.stringify(res))
       this.terapiaList = res
-      console.log(this.terapiaList)
+
     }
   }
 
@@ -110,7 +133,6 @@ export class TerapiasComponent implements OnInit {
 
   //Respuesta para la consulta los roles
   consultaEspecialidadResponse(res: any) {
-    console.log("res = " + res)
 
     if (res == "e" || res == null) {
       alert("No hay comunicación con el servidor!!")
@@ -118,8 +140,6 @@ export class TerapiasComponent implements OnInit {
       // ok
       res = JSON.parse(JSON.stringify(res))
       this.especialidadList = res
-      console.log(this.especialidadList)
-
       this.relacion()
     }
   }
@@ -162,7 +182,7 @@ export class TerapiasComponent implements OnInit {
     }
   }
 
-  // Crear Estado
+  // Crear Terapia
   creacionTerapia(terapia: any) {
 
     console.log("Creacion de terapia")
@@ -189,6 +209,55 @@ export class TerapiasComponent implements OnInit {
       console.log(res)
       alert("Se creo el tipo de terapia: " + res.terapia)
       this.terapia = {}
+
+    }
+  }
+
+
+
+  formularioModifica(){
+    console.log("entro a formulario modifica")
+    let formularioValido: any = document.getElementById("modForm");
+    if (formularioValido.reportValidity()) {
+
+      // Crecion de direccion
+      this.terapiaListSelect.idTerapia = this.idTerapia
+      this.actualizarTerapia(this.terapiaListSelect).subscribe(
+        (respuesta: any) => this.actualizacionTerapiaResponse(respuesta)
+      )
+    }
+  }
+
+
+  // Actualiza Terapia
+  actualizarTerapia(terapia: any) {
+
+    console.log("Actualiza de terapia")
+    console.log(terapia)
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post<any>("http://localhost:4043/terapia/actualiza", terapia, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+
+  actualizacionTerapiaResponse(res: any) {
+    console.log(res + " aqui va el res ")
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+
+      res = JSON.parse(JSON.stringify(res))
+      console.log(res)
+      alert("Se actualiza el tipo de terapia: " + res.terapia)
+      this.terapia = {}
+      this.consul =true
+      this.mod = false
 
     }
   }

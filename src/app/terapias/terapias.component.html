@@ -151,7 +151,7 @@
               <a class="nav-link item" (click)="menu(2)">Creación</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link item" (click)="menu(3)">Eliminación</a>
+              <a class="nav-link item" (click)="menu(3)">Modificar</a>
             </li>
           </ul>
           <a href="#" class="exit">Cerrar Sesión</a>
@@ -232,42 +232,45 @@
         </div>
       </div>
 
-      <!--Eliminacion-->
-      <div *ngIf="elim">
+      <!--Modificar-->
+      <div *ngIf="mod">
         <div class="container create">
-          <h2>Eliminación de Terapias</h2>
+          <h2>Modificacion de Terapia</h2>
           <br>
-          <form>
+          <form (ngSubmit)="formularioModifica()" id="modForm">
             <div class="row">
-              <div class="col-auto">
-                <label class="form-label">Terapias</label>
-                <select class="form-select" aria-label="Default select example">
+              <div  class="col-3 form-floating">
+                <select class="form-select" aria-label="Default select example" (change)="terapiaSelect()" [(ngModel)]="idTerapia" [ngModelOptions]="{standalone: true}" >
                   <option selected></option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option *ngFor="let terapia of terapiaList " value="{{terapia.idTerapia}}">
+                    {{terapia.terapia}}</option>
                 </select>
+                <label class="form-label">Terapia</label>
               </div>
+
+            </div>
+            <br>
+            <div  class="col-3 form-floating">
             </div>
             <br>
             <div class="mb-3 row">
               <div class="col-3">
                 <label class="form-label">Nombre de Terapia</label>
-                <input type="text" class="form-control" id="terapiaElim" disabled>
+                <input type="text" class="form-control" id="terapiaElim" enable [(ngModel)]="terapiaListSelect.terapia" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado">
               </div>
               <div class="col-1"></div>
               <div class="col-2">
-                <label class="form-label">Precio de Terapia</label>
-                <input type="number" class="form-control" id="precioElim" disabled>
+                <label class="form-label">Precio</label>
+                <input type="number" class="form-control" id="precioElim" enable [(ngModel)]="terapiaListSelect.precio" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado">
               </div>
             </div>
             <div class="mb-3 row">
               <div class="col-4">
-                <label class="form-label">Descripción</label>
-                <textarea class="form-control" id="descricionElim" rows="3" disabled></textarea>
+                <label class="form-label">Descripcion</label>
+                <textarea class="form-control" id="descricionElim" rows="3" enable [(ngModel)]="terapiaListSelect.descripcion" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado"></textarea>
               </div>
             </div>
-            <button type="button" class="btn btnElim">Eliminar Terapia</button>
+            <button type="submit" class="btn btnMdf">Modificar Terapia</button>
           </form>
         </div>
       </div>
