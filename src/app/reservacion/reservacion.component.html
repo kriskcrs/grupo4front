@@ -167,18 +167,20 @@
           <table class="table table-striped">
             <thead>
             <tr>
-              <th scope="col">Id Clinica</th>
-              <th scope="col">Clinica</th>
-              <th scope="col">ID Sede</th>
-              <th scope="col">Sede</th>
+              <th scope="col">Id Reservacion</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Horario</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Datos</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let clinica of clinicaListSede">
-              <th scope="row">{{clinica.idclinica}}</th>
-              <td>{{clinica.clinica}}</td>
-              <td>{{clinica.sedeIdSede}}</td>
-              <td>{{clinica.sede}}</td>
+            <tr *ngFor="let reservacion of reservacionListCompleto">
+              <th scope="row">{{reservacion.idReservacion}}</th>
+              <td>{{reservacion.fechaRerservacion | date:'yyyy-MM-dd'}}</td>
+              <td>{{reservacion.horario | date:'hh:mm'}}</td>
+              <td>{{reservacion.nombreEstado}}</td>
+              <td>{{reservacion.datosReservacion}}</td>
             </tr>
             </tbody>
           </table>
@@ -192,13 +194,12 @@
           <br>
           <form class="login-form" (ngSubmit)="formularioCreacion()" id="createForm">
             <div class="row">
-              <label>Fecha de reservación</label>
               <!--                Fecha-->
               <div class="col-3 ">
                 <div class="input-group">
                   <input
                     class="form-control"
-                    placeholder="yyyy-mm-dd"
+                    placeholder="Fecha de reservación"
                     name="dp"
                     [(ngModel)]="fecha"
                     ngbDatepicker
@@ -348,6 +349,19 @@
                 <textarea class="form-control" id="descricion" rows="3" placeholder="Descripción" [(ngModel)]="reservacion.datosReservacion" [ngModelOptions]="{standalone: true}" required></textarea>
                 <label class="form-label">Datos Adicionales</label>
               </div>
+              <div class="col-1"></div>
+
+              <!--              Metodo de Pago-->
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example" [(ngModel)]="tipoPago" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let tipoPago of tipoPagoList" value="{{tipoPago.idTipoPago}}"> &nbsp;
+                    &nbsp; &nbsp;{{tipoPago.tipoPago}}
+                  </option>
+                </select>
+                <label class="form-label">Método de Pago</label>
+              </div>
+              <div class="col-1"></div>
             </div>
 
 
@@ -355,7 +369,7 @@
             <br>
             <div class="row">
               <div class="col-2">
-                <button type="submit" (click)="formularioCreacion()" class="btn">Guardar Reservación</button>
+                <button type="submit" class="btn">Guardar Reservación</button>
               </div>
             </div>
           </form>

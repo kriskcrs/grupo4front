@@ -25,6 +25,7 @@ export class ReservacionComponent implements OnInit {
   especialistaList:any = []
   clinica: any = {}
   horarioList:any = []
+  reservacionList:any = []
   reservacion:any = {}
   sede:any
   especialidad:any
@@ -32,6 +33,10 @@ export class ReservacionComponent implements OnInit {
   departamento:any
   municipio:any
   terapia:any = {}
+  tipoPago:any
+  tipoPagoList:any = []
+  estadoList:any = []
+  reservacionListCompleto:any = []
 
   //calendario
   fecha: NgbDateStruct | undefined;
@@ -40,8 +45,8 @@ export class ReservacionComponent implements OnInit {
   closeResult = '';
 
   // banderas
-  consul: boolean = false
-  crea: boolean = true
+  consul: boolean = true
+  crea: boolean = false
   elim: boolean = false
   busca: boolean = false
   agregaTerapiaBandera:boolean = false
@@ -51,7 +56,7 @@ export class ReservacionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.consultaS()
+    this.consultaR()
     this.usuario = localStorage.getItem("user")
     this.usuario = JSON.parse(this.usuario)
   }
@@ -65,7 +70,7 @@ export class ReservacionComponent implements OnInit {
     switch (x) {
       case 1:
         this.consul = true;
-        this.consultaS();
+        this.consultaR();
         break;
       case 2:
         this.crea = true;
@@ -84,11 +89,88 @@ export class ReservacionComponent implements OnInit {
   }
 
 
-  //consulta sedes
-  consultaS() {
-    // this.consultaClinica().subscribe(
-    //   (respuesta: any) => this.consultaClinicaResponse(respuesta)
-    // )
+  //consulta reservacion
+  consultaR() {
+    this.consultaReservacion().subscribe(
+      (respuesta: any) => this.consultaReservacionResponse(respuesta)
+    )
+    this.consultaHorario().subscribe(
+      (respuesta: any) => this.consultaHorarioResponse(respuesta)
+    )
+    this.consultaEstado().subscribe(
+      (respuesta: any) => this.consultaEstadoResponse(respuesta)
+    )
+
+    setTimeout(() => {
+        this.relacionReservacion()
+      },
+      350);
+  }
+
+  //Consulta Reservacion
+  consultaReservacion() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/reservacion/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaReservacionResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.reservacionList = res
+      console.log(this.reservacionList)
+    }
+  }
+  relacionReservacion(){
+    this.reservacionListCompleto = []
+    for (let reservacion of this.reservacionList){
+      for(let horario of this.horarioList){
+        if(reservacion.horarioIdHorario == horario.idHorario){
+          reservacion.horario = horario.horario
+        }
+      }
+      for(let estado of this.estadoList){
+        if(reservacion.estadoIdEstado == estado.idEstado){
+          reservacion.nombreEstado = estado.nombreEstado
+        }
+      }
+      this.reservacionListCompleto.push(reservacion)
+    }
+  }
+
+  //Consulta Estados
+  consultaEstado() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/estado/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaEstadoResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.estadoList = res
+      console.log(this.estadoList)
+    }
   }
 
   //Catalogos
@@ -98,6 +180,9 @@ export class ReservacionComponent implements OnInit {
     )
     this.consultaDepartamento().subscribe(
       (respuesta: any) => this.consultaDepartamentoResponse(respuesta)
+    )
+    this.consultaTipoPago().subscribe(
+      (respuesta: any) => this.consultaTipoPagoResponse(respuesta)
     )
 
   }
@@ -149,6 +234,31 @@ export class ReservacionComponent implements OnInit {
       res = JSON.parse(JSON.stringify(res))
       this.departamentoList = res
       console.log(this.departamentoList)
+    }
+  }
+
+  //Consulta Tipo Pago
+  consultaTipoPago() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/tipoPago/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaTipoPagoResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.tipoPagoList = res
+      console.log(this.tipoPagoList)
     }
   }
 
@@ -424,42 +534,76 @@ export class ReservacionComponent implements OnInit {
 
 
 
-
-
-  //Creacion de clinica especialidad
+  //Creacion de reservacion
   formularioCreacion(){
 
     console.clear()
     console.log(this.fecha)
 
-    this.reservacion.fechaReservacion = this.fecha?.year + "-" + this.fecha?.month + "-" + this.fecha?.day
+    this.reservacion.fechaRerservacion = this.fecha?.year + "-" + this.fecha?.month + "-" + this.fecha?.day
     this.reservacion.clienteIdCliente = this.usuario.idCliente
     this.reservacion.estadoIdEstado = 1
     console.log(this.reservacion)
 
-    // let formularioValido: any = document.getElementById("createForm");
-    // if (formularioValido.reportValidity()) {
-    //   this.creacionClinica(this.clinica).subscribe(
-    //     (respuesta: any) => this.creacionClinicaResponse(respuesta)
-    //   )
-    // }
+    let formularioValido: any = document.getElementById("createForm");
+    if (formularioValido.reportValidity()) {
+      this.crearReservacion(this.reservacion).subscribe(
+        (respuesta: any) => this.crearReservacionResponse(respuesta)
+      )
+    }
   }
 
-  // Crear Direccion
-  creacionClinica(clinica: any) {
+  // Crear Reservacion
+  crearReservacion(reservacion: any) {
 
-    console.log("Creacion de clinica")
-    console.log(clinica)
+    console.log("Creacion de reservación")
+    console.log(reservacion)
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-    return this.http.post<any>("http://localhost:4043/clinica/crea", clinica, httpOptions).pipe(
+    return this.http.post<any>("http://localhost:4043/reservacion/crea", reservacion, httpOptions).pipe(
       catchError(e => "e")
     )
   }
-  creacionClinicaResponse(res: any) {
+  crearReservacionResponse(res: any) {
+    console.log(res + " aqui va el res ")
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+
+      this.crearTerapiaReservacion(res.idReservacion).subscribe(
+        (respuesta: any) => this.crearTerapiaReservacionResponse(respuesta)
+      )
+
+      res = JSON.parse(JSON.stringify(res))
+      console.log(res)
+      alert("Se creo la reservación: " + res.idReservacion)
+      this.consul = true
+      this.crea = false
+    }
+  }
+
+  // Crear terapia Reservacion
+  crearTerapiaReservacion(idReservacion: any) {
+
+    console.log("Creacion de reservación")
+    console.log(idReservacion)
+    console.log(this.terapiaListAgregar)
+    console.log(JSON.stringify(this.terapiaListAgregar))
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post<any>("http://localhost:4043/terapiaReservacion/crea/" + idReservacion, this.terapiaListAgregar, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  crearTerapiaReservacionResponse(res: any) {
     console.log(res + " aqui va el res ")
 
     if (res == "e" || res == null) {
@@ -469,8 +613,38 @@ export class ReservacionComponent implements OnInit {
 
       res = JSON.parse(JSON.stringify(res))
       console.log(res)
-      alert("Se creo la clinica: " + res.clinica)
 
+      this.crearFactura(res).subscribe(
+        (respuesta: any) => this.crearFacturaResponse(respuesta)
+      )
+
+
+    }
+  }
+
+  // Crear factura
+  crearFactura(terapiaReservacionList:any) {
+    console.log("Creacion de factura")
+
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post<any>("http://localhost:4043/factura/crea/" + this.tipoPago, terapiaReservacionList, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  crearFacturaResponse(res: any) {
+    console.log(res + " aqui va el res ")
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+
+      res = JSON.parse(JSON.stringify(res))
+      console.log(res)
     }
   }
 }
