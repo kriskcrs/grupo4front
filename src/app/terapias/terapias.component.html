@@ -242,8 +242,7 @@
               <div  class="col-3 form-floating">
                 <select class="form-select" aria-label="Default select example" (change)="terapiaSelect()" [(ngModel)]="idTerapia" [ngModelOptions]="{standalone: true}" >
                   <option selected></option>
-                  <option *ngFor="let terapia of terapiaList " value="{{terapia.idTerapia}}">
-                    {{terapia.terapia}}</option>
+                  <option *ngFor="let terapia of terapiaList " value="{{terapia.idTerapia}}">&nbsp;&nbsp;&nbsp;{{terapia.terapia}}</option>
                 </select>
                 <label class="form-label">Terapia</label>
               </div>
@@ -256,18 +255,18 @@
             <div class="mb-3 row">
               <div class="col-3">
                 <label class="form-label">Nombre de Terapia</label>
-                <input type="text" class="form-control" id="terapiaElim" enable [(ngModel)]="terapiaListSelect.terapia" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado">
+                <input type="text" class="form-control" id="terapiaMod" enable [(ngModel)]="terapiaListSelect.terapia" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado">
               </div>
               <div class="col-1"></div>
               <div class="col-2">
                 <label class="form-label">Precio</label>
-                <input type="number" class="form-control" id="precioElim" enable [(ngModel)]="terapiaListSelect.precio" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado">
+                <input type="number" class="form-control" id="precioMod" enable [(ngModel)]="terapiaListSelect.precio" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado">
               </div>
             </div>
             <div class="mb-3 row">
               <div class="col-4">
                 <label class="form-label">Descripcion</label>
-                <textarea class="form-control" id="descricionElim" rows="3" enable [(ngModel)]="terapiaListSelect.descripcion" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado"></textarea>
+                <textarea class="form-control" id="descricionMod" rows="3" enable [(ngModel)]="terapiaListSelect.descripcion" [ngModelOptions]="{standalone: true}" required [disabled]="encontrado"></textarea>
               </div>
             </div>
             <button type="submit" class="btn btnMdf">Modificar Terapia</button>
