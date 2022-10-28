@@ -151,7 +151,7 @@
               <a class="nav-link item" (click)="menu(2)">Creación</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link item" (click)="menu(3)">Eliminación</a>
+              <a class="nav-link item" (click)="menu(3)">Modificar</a>
             </li>
           </ul>
           <a href="#" class="exit">Cerrar Sesión</a>
@@ -252,37 +252,71 @@
         </div>
       </div>
 
-      <!--Eliminacion-->
+      <!--Modificacion-->
       <div *ngIf="elim">
         <div class="container create">
-          <h2>Eliminación de Identidades</h2>
+          <h2>Modificacion de Sede</h2>
           <br>
-          <form>
+          <form class="login-form" (ngSubmit)="formularioCreacion()" id="createForm">
+            <!--            Sede -->
             <div class="row">
-              <div class="col-auto">
-                <label class="form-label">Identidad</label>
-                <select class="form-select" aria-label="Default select example">
+              <div class="col-3 form-floating">
+                <input type="text" class="form-control" id="nombre" placeholder="Santiago"  [(ngModel)]="sede.sede" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Sede</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-3 form-floating">
+                <select  class="form-select" aria-label="Default select example" (change)="consultaMuni()" [(ngModel)]="departamento" [ngModelOptions]="{standalone: true}" required>
                   <option selected></option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option  *ngFor="let departament of departamentoList" value="{{departament.idDepartamento}}">
+                    &nbsp; &nbsp;{{departament.departamento}}
+                  </option>
                 </select>
+                <label class="form-label">Departamento</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-3 form-floating">
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="direccion.municipioIdMunicipio" [ngModelOptions]="{standalone: true}" required>
+                  <option selected></option>
+                  <option  *ngFor="let municipio of municipioList" value="{{municipio.idmunicipio}}">
+                    &nbsp; &nbsp; {{municipio.municipio}}
+                  </option>
+                </select>
+                <label class="form-label">Municipio</label>
               </div>
             </div>
-            <br>
-            <div class="mb-3 row">
-              <div class="col-3">
-                <label class="form-label">Nombre de Identidad</label>
-                <input type="text" class="form-control" id="terapiaElim" disabled>
+            <br><br>
+            <!--            Direccion-->
+            <div class="row">
+              <div class="col-2 form-floating">
+                <input type="text" class="form-control" id="calle" placeholder="2"  [(ngModel)]="direccion.calle" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Calle</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-2 form-floating">
+                <input type="text" class="form-control" id="avenida" placeholder=" 1"  [(ngModel)]="direccion.avenida" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Avenida</label>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-5 form-floating">
+                <input type="text" class="form-control" id="direccion" placeholder="2-53 Zona 1 Aldea Cascabel"  [(ngModel)]="direccion.otros" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Dirección</label>
               </div>
             </div>
-            <button type="button" class="btn btnElim">Eliminar Identidad</button>
+            <br><br>
+            <!--            Boton Guardar-->
+            <div class="row justify-content-center">
+              <div class="col-2">
+                <button type="submit" class="btn">Guardar Sede</button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
+      </div>
     </div>
   </div>
-</div>
+
 
 <!--          TAMPLATE-->
 <ng-template #content let-modal>
