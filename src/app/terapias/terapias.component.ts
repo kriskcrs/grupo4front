@@ -277,6 +277,7 @@ export class TerapiasComponent implements OnInit {
       console.log(res)
       alert("Se creo el tipo de terapia: " + res.terapia)
       this.terapia = {}
+      location.href = "/terapias"
 
     }
   }

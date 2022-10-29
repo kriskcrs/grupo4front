@@ -186,7 +186,7 @@
             <tr *ngFor="let reservacion of reservacionListCompleto">
               <th scope="row">{{reservacion.idReservacion}}</th>
               <td>{{reservacion.fechaReservacion | date:'yyyy-MM-dd'}}</td>
-              <td>{{reservacion.horario | date:'hh:mm'}}</td>
+              <td>{{reservacion.horario | date:'hh:mm a'}}</td>
               <td>{{reservacion.nombreEstado}}</td>
               <td>{{reservacion.datosReservacion}}</td>
             </tr>
@@ -222,7 +222,7 @@
                 <select  class="form-select" aria-label="Default select example" [(ngModel)]="reservacion.horarioIdHorario" [ngModelOptions]="{standalone: true}" required>
                   <option selected></option>
                   <option  *ngFor="let horario of horarioList" value="{{horario.idHorario}}"> &nbsp;
-                    &nbsp; &nbsp;{{horario.horario | date:'hh:mm:ss'}}
+                    &nbsp; &nbsp;{{horario.horario | date:'hh:mm:ss a'}}
                   </option>
                 </select>
                 <label class="form-label">Horario</label>

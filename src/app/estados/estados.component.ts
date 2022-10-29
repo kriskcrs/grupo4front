@@ -212,6 +212,7 @@ export class EstadosComponent implements OnInit {
       console.log(res)
       alert("Se creo el estado: " + res.nombreEstado)
       this.estado = {}
+      location.href = "/estados"
 
     }
   }
