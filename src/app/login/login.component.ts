@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   usuario: any=[]
   menuRolList: any=[]
   menuList: any =[]
-  permisos: any = {}
+  permisos: any = []
   menuRolHistorial: any = []
 
   constructor(private http: HttpClient) {
@@ -192,10 +192,10 @@ export class LoginComponent implements OnInit {
 
     for(let x of this.rolList ){
       if(x.idRol == this.usuario.rol){
-        this.permisos.crear  = x.crear
-        this.permisos.borrar = x.borrar
-        this.permisos.actualizar = x.actualizar
-        this.permisos.consultar = x.consultar
+        this.permisos.push(x.crear)
+        this.permisos.push(x.borrar)
+        this.permisos.push(x.actualizar)
+        this.permisos.push(x.consultar)
       }
     }
 
