@@ -29,11 +29,16 @@ export class EspecialistasComponent implements OnInit {
   msjEliminaCliente: String = ""
   departamentoList:any = []
   municipioList:any = []
+  especialidadList:any = []
+  especialidadListSelect:any = []
+  especialidadSeleccionada:any = {}
+
   //banderas
   consul: boolean = true
   crea: boolean = false
   elim: boolean= false
   busca: boolean = false
+  agregarEspecialidadBandera: boolean = false
 
   //banderas menu
   menu1:boolean = false
@@ -359,6 +364,36 @@ export class EspecialistasComponent implements OnInit {
       res = JSON.parse(JSON.stringify(res))
       alert("El usuario de especialista es: " + res.usuario)
     }
+
+    this.creacionEspecialidadEspecialista(res.usuario).subscribe(
+      (respuesta: any) => this.creacionEspecialidadEspecialistaResponse(respuesta)
+    )
+  }
+
+  creacionEspecialidadEspecialista(us: any) {
+
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post<any>("http://localhost:4043/especialidadEspecialista/crea/" + us, this.especialidadListSelect, httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  creacionEspecialidadEspecialistaResponse(res: any) {
+    console.log(res + " aqui va el res ")
+    if (res.length == 0) {
+      // this.usuarioInvalido = true;
+      console.log("paso por null")
+    } else if (res == "e") {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      res = JSON.parse(JSON.stringify(res))
+      console.log(res)
+    }
+
+
   }
 
   //Catalogos
@@ -372,6 +407,50 @@ export class EspecialistasComponent implements OnInit {
     this.consultaDepartamento().subscribe(
       (respuesta: any) => this.consultaDepartamentoResponse(respuesta)
     )
+
+    //Especialidades
+    this.consultaEspecialidad().subscribe(
+      (respuesta: any) => this.consultaEspecialidadResponse(respuesta)
+    )
+  }
+
+  consultaEspecialidad() {
+    console.log("Llamada al servicio")
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.get<any>("http://localhost:4043/especialidad/consulta", httpOptions).pipe(
+      catchError(e => "e")
+    )
+  }
+  consultaEspecialidadResponse(res: any) {
+    console.log("res = " + res)
+
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      this.especialidadList = res
+      console.log(this.especialidadList)
+    }
+  }
+
+  agregarEspecialidad(){
+    this.agregarEspecialidadBandera = true
+  }
+
+  guardarEspecialidad(){
+
+    for(let especialidad of this.especialidadList){
+      if(especialidad.idEspecialidad == this.especialidadSeleccionada){
+        this.especialidadListSelect.push(especialidad)
+      }
+    }
+
+    this.agregarEspecialidadBandera = false
   }
 
   consultaDepartamento() {
