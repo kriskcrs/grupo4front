@@ -373,6 +373,7 @@ export class ClientesComponent implements OnInit {
       alert("Tu nuevo usuario es: " + res.usuario)
 
       this.salir()
+      location.href = "/clientes"
     }
   }
 

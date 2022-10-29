@@ -363,6 +363,7 @@ export class EspecialistasComponent implements OnInit {
     } else if (res != null) {
       res = JSON.parse(JSON.stringify(res))
       alert("El usuario de especialista es: " + res.usuario)
+      location.href = "/especialistas"
     }
 
     this.creacionEspecialidadEspecialista(res.usuario).subscribe(

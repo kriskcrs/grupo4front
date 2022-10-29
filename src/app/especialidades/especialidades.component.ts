@@ -229,6 +229,7 @@ export class EspecialidadesComponent implements OnInit {
       res = JSON.parse(JSON.stringify(res))
       alert("Se creo la especialidad: " + res.especialidad)
       this.especialidad = {}
+      location.href = "/especialidades"
     }
   }
 

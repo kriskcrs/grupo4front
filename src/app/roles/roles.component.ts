@@ -199,6 +199,7 @@ export class RolesComponent implements OnInit {
       console.log(res)
       alert("Se creo el tipo de identidad: " + res.nombreRol)
       this.rol = {}
+      location.href = "/roles"
 
     }
   }

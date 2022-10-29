@@ -666,6 +666,7 @@ export class ReservacionComponent implements OnInit {
       alert("Se creo la reservación: " + res.idReservacion)
       this.consul = true
       this.crea = false
+      location.href = "/reservacion"
     }
   }
 

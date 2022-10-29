@@ -211,6 +211,7 @@ export class TipoIdentidadComponent implements OnInit {
       console.log(res)
       alert("Se creo el tipo de identidad: " + res.tipoIdentidad)
       this.tipoIdentidad = {}
+      location.href = "/tipoDeidentidades"
 
     }
   }

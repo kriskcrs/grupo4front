@@ -398,6 +398,7 @@ export class SedesComponent implements OnInit {
 
       res = JSON.parse(JSON.stringify(res))
       alert("Se creo la sede: " + res.sede)
+      location.href = "/sedes"
     }
   }
 

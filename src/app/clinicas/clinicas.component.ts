@@ -283,6 +283,7 @@ export class ClinicasComponent implements OnInit {
       res = JSON.parse(JSON.stringify(res))
       console.log(res)
       alert("Se creo la clinica: " + res.clinica)
+      location.href = "/clinicas"
 
     }
   }
