@@ -151,7 +151,7 @@
               <a class="nav-link item" (click)="menu(2)">Creación</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link item" (click)="menu(3)">Eliminación</a>
+              <a class="nav-link item" (click)="menu(3)">Modificar</a>
             </li>
           </ul>
           <a href="#" class="exit">Cerrar Sesión</a>
@@ -210,27 +210,40 @@
         </div>
       </div>
 
-      <!--Eliminacion-->
-      <div *ngIf="elim">
+      <!--Modificacion-->
+      <div *ngIf="mod">
         <div class="container create">
-          <h2>Eliminación de Especialidad</h2>
+          <h2>Modificar Especialidad</h2>
           <br>
-
-          <!--          Buscar-->
-          <div class="mb-3 row">
+          <br><br>
+          <form class="login-form" (ngSubmit)="modificarCreacion()" id="modForm">
+            <!--            Especialidad -->
             <div class="row">
-              <div class="col-3">
-                <label class="form-label">Identidad</label>
-                <input type="text" class="form-control" id="busca" [(ngModel)]="buscaEsp">
+              <div class="col-3 form-floating">
+                <select class="form-select" aria-label="Default select example" (change)="especialidadSelect()" [(ngModel)]="especialidad.idEspecialidad" [ngModelOptions]="{standalone: true}" >
+                  <option selected></option>
+                  <option *ngFor="let espe of especialidadesList " value="{{espe.idEspecialidad}}">
+                    &nbsp;&nbsp;&nbsp;{{espe.especialidad}}</option>
+                </select>
+                <label class="form-label">Sede</label>
               </div>
             </div>
-            <div class="row">
-              <div class="col-3">
-                <br>
-                <button type="button" class="btn btn-guardar" (click)="buscaE()">Buscar Cliente</button>
+            <br>
+            <br>
+            <div class="row ">
+              <div class="col-3 form-floating">
+                <input type="text" class="form-control" placeholder="Masaje Relajante"  [(ngModel)]="especialidad.especialidad" [ngModelOptions]="{standalone: true}" required>
+                <label class="form-label">Nuevo nombre de especialidad</label>
               </div>
             </div>
-          </div>
+            <!--            Boton Guardar-->
+            <div class="row">
+              <div class="col-2">
+                <br><br>
+                <button type="submit" class="btn">Actualizar Especialista</button>
+              </div>
+            </div>
+          </form>
 
           <!--          form-->
           <div *ngIf="busca, else noEncontrado">

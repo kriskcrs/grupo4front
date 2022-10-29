@@ -20,11 +20,19 @@ export class EspecialidadesComponent implements OnInit {
   especialidadesList: any = []
   buscaEsp: String = ""
   msjEliminaCliente: String = ""
+  idEspecialidadSelect: any ={}
+  idEspecialidad: String = ""
+
   //banderas
   consul: boolean = true
   crea: boolean = false
-  elim: boolean= false
+  mod: boolean= false
   busca: boolean = false
+  encontrado: boolean = false
+
+
+
+
 
   // modal
   closeResult = '';
@@ -47,7 +55,7 @@ export class EspecialidadesComponent implements OnInit {
   menu(x:any){
     this.consul = false;
     this.crea =  false
-    this.elim = false
+    this.mod = false
 
     switch (x){
       case 1:
@@ -59,10 +67,10 @@ export class EspecialidadesComponent implements OnInit {
         this.crea = true;
         break;
       case 3:
-        this.elim = true;
-        // this.consultaTipoIdentidad().subscribe(
-        // (respuesta: any) => this.consultaTipoIdentidadResponse(respuesta)
-        // );
+        this.mod = true;
+        this.consultaEspecialidades().subscribe(
+          (respuesta: any) => this.consultaEspecialidadesResponse(respuesta)
+        );
         break;
     }
   }
@@ -78,6 +86,21 @@ export class EspecialidadesComponent implements OnInit {
     return this.http.get<any>("http://localhost:4043/especialidad/consulta", httpOptions).pipe(
       catchError(e => "e")
     )
+  }
+
+  especialidadSelect(){
+    if(this.idEspecialidad !=""){
+      this.idEspecialidadSelect ={}
+      for( let x of this.especialidadesList){
+        if( this.idEspecialidadSelect == x.idTerapia ){
+          this.encontrado = false
+          this.idEspecialidadSelect = x
+        }
+      }
+    }else {
+      this.encontrado = true
+      this.idEspecialidadSelect = {}
+    }
   }
 
   //Respuesta para la consulta de las especialidades
@@ -182,8 +205,43 @@ export class EspecialidadesComponent implements OnInit {
   //Elimina Cliente
   eliminaCliente(){
   let clienteEliminar = this.especialidadDetalle
+  }
 
+  modificarCreacion(){
+    let formularioValido: any = document.getElementById("modForm");
+    if (formularioValido.reportValidity()) {
+      // Crecion de direccion
+      this.actualizaEspecialidad(this.especialidad).subscribe(
+        (respuesta: any) => this.responseActualizaEspecialidad(respuesta)
+      )
+    }
+
+  }
+
+  actualizaEspecialidad(especialidad:any){
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.http.post<any>("http://localhost:4043/especialidad/actualizar", this.especialidad, httpOptions).pipe(
+      catchError(e => "e")
+    )
 
 
   }
+
+  responseActualizaEspecialidad(res:any){
+    if (res == "e" || res == null) {
+      alert("No hay comunicación con el servidor!!")
+    } else if (res != null) {
+      // ok
+      res = JSON.parse(JSON.stringify(res))
+      alert("Se Actualizo la especialidad: " + res.especialidad)
+      this.especialidad = {}
+      location.href = "/especialidades"
+    }
+  }
+
+
 }
