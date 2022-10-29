@@ -185,7 +185,7 @@ export class EspecialidadesComponent implements OnInit {
   //EXPORT TABLE
   name = 'ExcelSheet.xlsx';
   exportToExcel(): void {
-    let element = document.getElementById('tablaClientes');
+    let element = document.getElementById('tablaEspecialidad');
     const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
     const book: XLSX.WorkBook = XLSX.utils.book_new();
@@ -193,6 +193,7 @@ export class EspecialidadesComponent implements OnInit {
 
     XLSX.writeFile(book, this.name);
   }
+
   // MODULO DE CREACION -----------------------------------------------------------
   formularioCreacion(){
     let formularioValido: any = document.getElementById("createForm");

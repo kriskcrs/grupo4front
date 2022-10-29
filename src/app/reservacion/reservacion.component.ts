@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError} from "rxjs/operators";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import * as XLSX from "xlsx";
 
 @Component({
   selector: 'app-reservacion',
@@ -174,6 +175,18 @@ export class ReservacionComponent implements OnInit {
         this.relacionReservacion()
       },
       350);
+  }
+
+  //EXPORT TABLE
+  name = 'ExcelSheet.xlsx';
+  exportToExcel(): void {
+    let element = document.getElementById('tabla');
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    const book: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(book, worksheet, 'Sheet1');
+
+    XLSX.writeFile(book, this.name);
   }
 
   //Consulta Reservacion

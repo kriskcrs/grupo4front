@@ -167,6 +167,11 @@
       <!--Consulta-->
       <div *ngIf="consul">
         <div>
+          <!--          Exportar-->
+          <button class="btn" (click)="exportToExcel()">
+            Exportar
+          </button>
+          <br><br>
           <table id="tablaClientes" class="table table-striped">
             <thead>
             <tr>
@@ -194,11 +199,6 @@
             </tr>
             </tbody>
           </table>
-
-        <!--          Exportar-->
-          <button class="btn" (click)="exportToExcel()">
-            Exportar
-          </button>
         </div>
       </div>
 

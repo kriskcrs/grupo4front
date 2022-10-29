@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError} from "rxjs/operators";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-sedes',
@@ -129,6 +130,17 @@ export class SedesComponent implements OnInit {
     }
   }
 
+  //EXPORT TABLE
+  name = 'ExcelSheet.xlsx';
+  exportToExcel(): void {
+    let element = document.getElementById('tablaClientes');
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    const book: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(book, worksheet, 'Sheet1');
+
+    XLSX.writeFile(book, this.name);
+  }
 
   //consulta sedes
   consultaS(){

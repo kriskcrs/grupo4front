@@ -263,7 +263,7 @@ export class FacturasComponent implements OnInit {
   //EXPORT TABLE
   name = 'ExcelSheet.xlsx';
   exportToExcel(): void {
-    let element = document.getElementById('tablaClientes');
+    let element = document.getElementById('tabla');
     const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
     const book: XLSX.WorkBook = XLSX.utils.book_new();

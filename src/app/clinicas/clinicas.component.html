@@ -168,7 +168,12 @@
       <!--Consulta-->
       <div *ngIf="consul">
         <div>
-          <table class="table table-striped">
+          <!--          Exportar-->
+          <button class="btn" (click)="exportToExcel()">
+            Exportar
+          </button>
+          <br><br>
+          <table id="tabla" class="table table-striped">
             <thead>
             <tr>
               <th scope="col">Id Clinica</th>
